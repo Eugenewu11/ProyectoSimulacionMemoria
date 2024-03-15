@@ -204,31 +204,34 @@ public class Menu extends javax.swing.JFrame {
             
             // Validar que los campos no estén vacíos
             if (totalMemoria.getText().isEmpty() || nParticion.getText().isEmpty() || tmin.getText().isEmpty() 
-                || tmax.getText().isEmpty()|| politicas.getSelectedIndex() == 0) {
+                || tmax.getText().isEmpty()|| politicas.getSelectedIndex() == 0) 
+            {
                 JOptionPane.showMessageDialog(this, "Obligatorio llenar los campos", "Error!", JOptionPane.ERROR_MESSAGE);
             }else
                 {
                   if (cantidadMemoriatot <= 0 || numParticiones <= 0 || tiempoMin < 0 || tiempoMax <= 0) 
                   {
-                    JOptionPane.showMessageDialog(this, "Los campos solo pueden ser positivos o enteros", "Error!", JOptionPane.ERROR_MESSAGE);
-                  }else{
+                    JOptionPane.showMessageDialog(this, "Los campos solo pueden ser positivos y enteros", "Error!", JOptionPane.ERROR_MESSAGE);
+                  }else {
                          //validar que el tiempo maximo no sea menor que el minimo
                          if(tiempoMin > tiempoMax)
                         {
-                            JOptionPane.showMessageDialog(this, "El tiempo maximo no puede ser menor que el mínimo", "Error!", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "El tiempo mínimo no puede ser mmayor que el máximo", "Error!", JOptionPane.ERROR_MESSAGE);
                         }else
                             {    
                               //Validar que la política de partición sea seleccionada
                               String politicaSeleccionada = politicas.getSelectedItem().toString();
-                              if (!politicaSeleccionada.equals("Mejor Ajuste") && !politicaSeleccionada.equals("Primer Ajuste")) {
+                              if (!politicaSeleccionada.equals("Mejor Ajuste") && !politicaSeleccionada.equals("Primer Ajuste")) 
+                              {
                               JOptionPane.showMessageDialog(this, "No se seleccionó política de ubicación", "Error!", JOptionPane.ERROR_MESSAGE);
-                                }else
-                                    {
-                                        //Si todo se cumple entonces
-                                        TablaParticion tablaParticion = new TablaParticion();
-                                        this.setVisible(false);
-                                        tablaParticion.setVisible(true);
-                                    }
+                              }else
+                                   {
+                                    //Si todo se cumple entonces
+                                    TablaParticion tablaParticion = new TablaParticion();
+                                    tablaParticion.setDatoTP(cantidadMemoriatot, numParticiones, politicaSeleccionada);
+                                    this.setVisible(false);
+                                    tablaParticion.setVisible(true);
+                                   }
                             }    
                         }
                 }
