@@ -92,22 +92,18 @@ public class Menu extends javax.swing.JFrame {
 
         totalMemoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         totalMemoria.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        totalMemoria.setText("0");
 
         nParticion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         nParticion.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        nParticion.setText("0");
 
         politicas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         politicas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Mejor Ajuste", "Primer Ajuste" }));
 
         tmin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tmin.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        tmin.setText("0");
 
         tmax.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tmax.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        tmax.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -200,39 +196,46 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         try{
-            
-            // Validar que los campos no estén vacíos
-            if (totalMemoria.getText().isEmpty() || nParticion.getText().isEmpty() || tmin.getText().isEmpty() || tmax.getText().isEmpty() 
-                || politicas.getSelectedIndex() == 0) {
-                JOptionPane.showMessageDialog(this, "Obligatorio llenar los campos", "Error!", JOptionPane.ERROR_MESSAGE);
-            }
             int cantidadMemoriatot = Integer.parseInt(totalMemoria.getText());
             int numParticiones = Integer.parseInt(nParticion.getText());
             int tiempoMin = Integer.parseInt(tmin.getText());
             int tiempoMax = Integer.parseInt(tmax.getText());
 
-            if (cantidadMemoriatot <= 0 || numParticiones <= 0 || tiempoMin < 0 || tiempoMax <= 0) {
-                JOptionPane.showMessageDialog(this, "Los campos solo pueden ser positivos o enteros", "Error!", JOptionPane.ERROR_MESSAGE);
-            }
-            //validar que el tiempo maximo no sea menor que el minimo
             
-            if(tiempoMin > tiempoMax)
-            {
-                 JOptionPane.showMessageDialog(this, "El tiempo maximo no puede ser menor que el minimo", "Error!", JOptionPane.ERROR_MESSAGE);
-            }    
-            
-            // Validar que la política de partición sea seleccionada
-            String politicaSeleccionada = politicas.getSelectedItem().toString();
-            if (!politicaSeleccionada.equals("Mejor Ajuste") && !politicaSeleccionada.equals("Primer Ajuste")) {
-                JOptionPane.showMessageDialog(this, "No se selecciono politica de ubicacion", "Error!", JOptionPane.ERROR_MESSAGE);
-            }
-            //Si todo se cumple entonces
-               //  TablaParticion tablaParticion = new TablaParticion();
-                // this.setVisible(false);
-                 //tablaParticion.setVisible(true);
+            // Validar que los campos no estén vacíos
+            if (totalMemoria.getText().isEmpty() || nParticion.getText().isEmpty() || tmin.getText().isEmpty() 
+                || tmax.getText().isEmpty()|| politicas.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, "Obligatorio llenar los campos", "Error!", JOptionPane.ERROR_MESSAGE);
+            }else
+                {
+                  if (cantidadMemoriatot <= 0 || numParticiones <= 0 || tiempoMin < 0 || tiempoMax <= 0) 
+                  {
+                    JOptionPane.showMessageDialog(this, "Los campos solo pueden ser positivos o enteros", "Error!", JOptionPane.ERROR_MESSAGE);
+                  }else{
+                         //validar que el tiempo maximo no sea menor que el minimo
+                         if(tiempoMin > tiempoMax)
+                        {
+                            JOptionPane.showMessageDialog(this, "El tiempo maximo no puede ser menor que el mínimo", "Error!", JOptionPane.ERROR_MESSAGE);
+                        }else
+                            {    
+                              //Validar que la política de partición sea seleccionada
+                              String politicaSeleccionada = politicas.getSelectedItem().toString();
+                              if (!politicaSeleccionada.equals("Mejor Ajuste") && !politicaSeleccionada.equals("Primer Ajuste")) {
+                              JOptionPane.showMessageDialog(this, "No se seleccionó política de ubicación", "Error!", JOptionPane.ERROR_MESSAGE);
+                                }else
+                                    {
+                                        //Si todo se cumple entonces
+                                        TablaParticion tablaParticion = new TablaParticion();
+                                        this.setVisible(false);
+                                        tablaParticion.setVisible(true);
+                                    }
+                            }    
+                        }
+                }
+                              
         } catch (NumberFormatException ex) {
             // Capturar error si se ingresa un valor no numérico en los campos de texto
-            JOptionPane.showMessageDialog(this, "Las cadenas de texto no son validos", "Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No cumple con los parametros", "Error!", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException ex) {
             // Capturar error si no se cumplen las validaciones
             JOptionPane.showMessageDialog(this, "No se cumplen las validaciones", "Error!", JOptionPane.ERROR_MESSAGE);
