@@ -227,9 +227,17 @@ public class Menu extends javax.swing.JFrame {
                               }else
                                    {
                                     //Si todo se cumple entonces
+                                    //instanciar la clase global para recoger datos
+                                    DatosGlobales datosMenu = DatosGlobales.obtenerInstancia();
+                                    //obtenerlos de los textfield y guardarlos
+                                    datosMenu.setCantidadTotalMemoria(cantidadMemoriatot);
+                                    datosMenu.setNumeroParticiones(numParticiones);
+                                    datosMenu.setPoliticaUbicacion(politicaSeleccionada);
+                                    datosMenu.setTiempoMaximo(tiempoMax);
+                                    datosMenu.setTiempoMinimo(tiempoMin);
                                     TablaParticion tablaParticion = new TablaParticion();
-                                    tablaParticion.setDatoTP(cantidadMemoriatot, numParticiones, politicaSeleccionada);
                                     this.setVisible(false);
+                                    this.dispose();
                                     tablaParticion.setVisible(true);
                                    }
                             }    

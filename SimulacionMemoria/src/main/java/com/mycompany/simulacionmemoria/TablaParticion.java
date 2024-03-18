@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.simulacionmemoria;
 
 /**
@@ -12,25 +9,19 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 
 public class TablaParticion extends javax.swing.JFrame {
-   DefaultTableModel modelo;
+   DefaultTableModel modelo1;
+   DatosGlobales datosTablaP = DatosGlobales.obtenerInstancia();
+   int cantidadTotalMemoria = datosTablaP.getCantidadTotalMemoria();
+   int numeroParticiones = datosTablaP.getNumeroParticiones();
+   String politicaUbicacion = datosTablaP.getPoliticaUbicacion();
    
-   private String politica;
-   private String totalMemoria;
-   private String nParticion;
     public TablaParticion(){
-       initComponents();
+    initComponents();
+    totalMemTP.setText(String.valueOf(cantidadTotalMemoria));
+    NumPartTP.setText(String.valueOf(numeroParticiones));
+    polUbiTP.setText(politicaUbicacion);
     }
-
     
-    public void setDatoTP(int totM,int nPar,String poli){
-        
-        //this.totalMemoria = totM;
-        totalMemTP.setText(String.valueOf(totM));
-        //this.nParticion = nPar;
-        NumPartTP.setText(String.valueOf(nPar));
-        this.politica = poli;
-        polUbiTP.setText(poli);
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,6 +31,8 @@ public class TablaParticion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabla1 = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -51,6 +44,24 @@ public class TablaParticion extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         polUbiTP = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        btnAsignartp = new javax.swing.JButton();
+
+        tabla1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tabla1.setRowHeight(30);
+        tabla1.setSelectionBackground(new java.awt.Color(102, 204, 255));
+        tabla1.setShowHorizontalLines(true);
+        tabla1.setShowVerticalLines(true);
+        jScrollPane2.setViewportView(tabla1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -113,6 +124,14 @@ public class TablaParticion extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("GB");
 
+        btnAsignartp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAsignartp.setText("Asignar");
+        btnAsignartp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsignartpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -120,29 +139,32 @@ public class TablaParticion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(46, 46, 46)
-                                .addComponent(totalMemTP, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(NumPartTP, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                                    .addComponent(polUbiTP))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6)
-                        .addContainerGap(184, Short.MAX_VALUE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(46, 46, 46)
+                                        .addComponent(totalMemTP, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(NumPartTP, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                                            .addComponent(polUbiTP))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel6))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnAsignartp, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 71, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,15 +180,17 @@ public class TablaParticion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(NumPartTP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(polUbiTP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAsignartp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(136, 136, 136))
         );
 
         pack();
@@ -177,29 +201,58 @@ public class TablaParticion extends javax.swing.JFrame {
     }//GEN-LAST:event_NumPartTPActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       //inicializar modelo de dato
-       modelo = new DefaultTableModel(){
+
+        //inicializar modelo de dato
+       modelo1 = new DefaultTableModel()
+          {
            //Evitar poder editar las celdas del JTable
            public boolean isCellEditable(int rowIndex, int mColIndex){
                 return false;
            }
-       };
-       //Columnas a la table
-       modelo.addColumn("Partición");
-       modelo.addColumn("Memoria asignada");
+      };
+        modelo1.addColumn("Partición");
+       //Se crearan los rows para n particiones
        
+       for (int i = 1; i <= numeroParticiones; i++) {
+            modelo1.addRow(new Object[]{i, "" });
+        }
        //colocar el modelo en el JTable
-       tabla.setModel(modelo);
+       tabla.setModel(modelo1);
        
        //Ancho de columnas
        tabla.getColumnModel().getColumn(0).setMaxWidth(300);
        tabla.getColumnModel().getColumn(0).setPreferredWidth(300);
        tabla.getColumnModel().getColumn(1).setMaxWidth(300);
        tabla.getColumnModel().getColumn(1).setPreferredWidth(300);
+        /*modelo2 = new DefaultTableModel()
+          {
+           //Evitar poder editar las celdas del JTable
+           public boolean isCellEditable(int rowIndex, int mColIndex){
+                return false;
+           }
+      }; 
+       modelo2.addColumn("Memoria Asignada");
+       tabla2.setModel(modelo2);
+       tabla2.getColumnModel().getColumn(0).setMaxWidth(300);
+       tabla2.getColumnModel().getColumn(0).setPreferredWidth(300);
+       tabla2.getColumnModel().getColumn(1).setMaxWidth(300);
+       tabla2.getColumnModel().getColumn(1).setPreferredWidth(300);*/
        
        
        
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnAsignartpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignartpActionPerformed
+        detalleParticion x = new detalleParticion(this,true);//mandar a llamar el JDialog
+        x.setVisible(true);
+        
+       //Verificar que se hizo click en Asignar
+       if( x.getRootPane() != null )
+       {
+         Vector v = new Vector();
+         v.addElement(x.memoriaDetalle.getText());
+       }
+    }//GEN-LAST:event_btnAsignartpActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,6 +291,7 @@ public class TablaParticion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextField NumPartTP;
+    private javax.swing.JButton btnAsignartp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -245,8 +299,10 @@ public class TablaParticion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField polUbiTP;
     private javax.swing.JTable tabla;
+    private javax.swing.JTable tabla1;
     public javax.swing.JTextField totalMemTP;
     // End of variables declaration//GEN-END:variables
 }
