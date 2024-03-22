@@ -211,6 +211,7 @@ public class TablaParticion extends javax.swing.JFrame {
            }
       };
         modelo1.addColumn("Partición");
+        modelo1.addColumn("Memoria Asignada");
        //Se crearan los rows para n particiones
        
        for (int i = 1; i <= numeroParticiones; i++) {
