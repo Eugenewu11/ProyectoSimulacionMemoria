@@ -33,6 +33,7 @@ public class TablaParticion extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla1 = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -62,6 +63,8 @@ public class TablaParticion extends javax.swing.JFrame {
         tabla1.setShowHorizontalLines(true);
         tabla1.setShowVerticalLines(true);
         jScrollPane2.setViewportView(tabla1);
+
+        jLabel7.setText("jLabel7");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -161,9 +164,9 @@ public class TablaParticion extends javax.swing.JFrame {
                                 .addComponent(jLabel6))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnAsignartp, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 71, Short.MAX_VALUE)))
+                        .addGap(0, 65, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -211,6 +214,7 @@ public class TablaParticion extends javax.swing.JFrame {
            }
       };
         modelo1.addColumn("Partición");
+        modelo1.addColumn("Memoria Asignada");
        //Se crearan los rows para n particiones
        
        for (int i = 1; i <= numeroParticiones; i++) {
@@ -243,15 +247,8 @@ public class TablaParticion extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnAsignartpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignartpActionPerformed
-        detalleParticion x = new detalleParticion(this,true);//mandar a llamar el JDialog
+        detalleTp x = new detalleTp(this,true);
         x.setVisible(true);
-        
-       //Verificar que se hizo click en Asignar
-       if( x.getRootPane() != null )
-       {
-         Vector v = new Vector();
-         v.addElement(x.memoriaDetalle.getText());
-       }
     }//GEN-LAST:event_btnAsignartpActionPerformed
 
     /**
@@ -298,6 +295,7 @@ public class TablaParticion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField polUbiTP;

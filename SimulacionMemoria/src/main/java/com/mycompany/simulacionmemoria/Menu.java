@@ -218,30 +218,37 @@ public class Menu extends javax.swing.JFrame {
                         {
                             JOptionPane.showMessageDialog(this, "El tiempo mínimo no puede ser mmayor que el máximo", "Error!", JOptionPane.ERROR_MESSAGE);
                         }else
-                            {    
-                              //Validar que la política de partición sea seleccionada
-                              String politicaSeleccionada = politicas.getSelectedItem().toString();
-                              if (!politicaSeleccionada.equals("Mejor Ajuste") && !politicaSeleccionada.equals("Primer Ajuste")) 
-                              {
-                              JOptionPane.showMessageDialog(this, "No se seleccionó política de ubicación", "Error!", JOptionPane.ERROR_MESSAGE);
-                              }else
+                            {
+                                if(cantidadMemoriatot > 10000 || numParticiones > 20)
                                    {
-                                    //Si todo se cumple entonces
-                                    //instanciar la clase global para recoger datos
-                                    DatosGlobales datosMenu = DatosGlobales.obtenerInstancia();
-                                    //obtenerlos de los textfield y guardarlos
-                                    datosMenu.setCantidadTotalMemoria(cantidadMemoriatot);
-                                    datosMenu.setNumeroParticiones(numParticiones);
-                                    datosMenu.setPoliticaUbicacion(politicaSeleccionada);
-                                    datosMenu.setTiempoMaximo(tiempoMax);
-                                    datosMenu.setTiempoMinimo(tiempoMin);
-                                    TablaParticion tablaParticion = new TablaParticion();
-                                    this.setVisible(false);
-                                    this.dispose();
-                                    tablaParticion.setVisible(true);
+                                     JOptionPane.showMessageDialog(this, "El maximo de memoria permitido es 10,000, maximo de particiones es 20.", "Error!", JOptionPane.ERROR_MESSAGE);
                                    }
-                            }    
+                                     else
+                                        {    
+                                         //Validar que la política de partición sea seleccionada
+                                         String politicaSeleccionada = politicas.getSelectedItem().toString();
+                                         if (!politicaSeleccionada.equals("Mejor Ajuste") && !politicaSeleccionada.equals("Primer Ajuste")) 
+                                         {
+                                             JOptionPane.showMessageDialog(this, "No se seleccionó política de ubicación", "Error!", JOptionPane.ERROR_MESSAGE);
+                                              }else
+                                         {
+                                            //Si todo se cumple entonces
+                                            //instanciar la clase global para recoger datos
+                                            DatosGlobales datosMenu = DatosGlobales.obtenerInstancia();
+                                            //obtenerlos de los textfield y guardarlos
+                                            datosMenu.setCantidadTotalMemoria(cantidadMemoriatot);
+                                            datosMenu.setNumeroParticiones(numParticiones);
+                                            datosMenu.setPoliticaUbicacion(politicaSeleccionada);
+                                            datosMenu.setTiempoMaximo(tiempoMax);
+                                            datosMenu.setTiempoMinimo(tiempoMin);
+                                            TablaParticion tablaParticion = new TablaParticion();
+                                            this.setVisible(false);
+                                            this.dispose();
+                                            tablaParticion.setVisible(true);
+                                           }
+                                 }    
                         }
+                  }
                 }
                               
         } catch (NumberFormatException ex) {
