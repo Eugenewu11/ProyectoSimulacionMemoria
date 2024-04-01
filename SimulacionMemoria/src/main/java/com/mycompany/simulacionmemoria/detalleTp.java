@@ -13,11 +13,14 @@ public class detalleTp extends javax.swing.JDialog {
 
     DatosGlobales detalleTp = DatosGlobales.obtenerInstancia();
     int particion = detalleTp.getNumeroParticiones();
-    int c = 0;
+    int cantidadTotalMemoria = detalleTp.getCantidadTotalMemoria();
+    int c = 0;//contador
+    
     public detalleTp(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         nparticiones.setText(String.valueOf(particion));
+        btnAceptar.setEnabled(c < particion);
     }
 
     /**
@@ -55,9 +58,10 @@ public class detalleTp extends javax.swing.JDialog {
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("Asigne memoria para cadapartición:");
+        jLabel1.setText("Asigne memoria para cada partición:");
 
         detalleMemoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        detalleMemoria.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Número de particiones:");
@@ -65,6 +69,11 @@ public class detalleTp extends javax.swing.JDialog {
         nparticiones.setEditable(false);
         nparticiones.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         nparticiones.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        nparticiones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nparticionesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -73,38 +82,34 @@ public class detalleTp extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nparticiones, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(detalleMemoria, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(71, 71, 71))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(149, 149, 149)
-                        .addComponent(jLabel2)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nparticiones, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(detalleMemoria, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(nparticiones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(detalleMemoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31))
         );
 
@@ -112,21 +117,50 @@ public class detalleTp extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-       
+        this.setRootPane(null);
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         
-        
-        if(c < particion)
+          try{ 
+           int memoriaAsignada = Integer.parseInt(detalleMemoria.getText());
+            if (memoriaAsignada < 0) {
+                JOptionPane.showMessageDialog(this, "La cantidad de memoria debe ser mayor que cero.");
+                return;
+            }
+            if (memoriaAsignada > cantidadTotalMemoria) {
+                JOptionPane.showMessageDialog(this, "La memoria asignada no puede superar la memoria total disponible.");
+                return;
+                
+            }
+            int sumaMemoria = 0;
+            sumaMemoria = sumaMemoria + memoriaAsignada;
+            if (sumaMemoria > cantidadTotalMemoria) {
+                JOptionPane.showMessageDialog(this, "La suma de la memoria asignada supera la memoria total.");
+                return;
+            }
+              System.out.println(sumaMemoria);
+            c++;
+            if (c >= particion)
+            {
+              JOptionPane.showMessageDialog(this, "Se ha alcanzado el límite de particiones.");
+              //btnAceptar.setEnabled(false); // Desactivar el botón Aceptar si se alcanza el límite de particiones
+              return;
+            }
+            
+            setVisible(false);
+        }catch(Exception e)
         {
-            JOptionPane.showMessageDialog(this, "se hizo", "Error!", JOptionPane.ERROR_MESSAGE);
-        }else
-        {
-            btnAceptar.setVisible(false);
+          JOptionPane.showMessageDialog(this,"Datos ingresados no validos.");
         }
-        c++;
+       
+        
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void nparticionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nparticionesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nparticionesActionPerformed
 
     /**
      * @param args the command line arguments
