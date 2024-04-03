@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.simulacionmemoria;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -156,14 +152,11 @@ public class pantallaSimulacion extends javax.swing.JFrame {
                     panelParticion.setBounds(j * anchoPanelHijo, i * altoPanelHijo, anchoPanelHijo, altoPanelHijo);
                 }
             }
-        }
-    
+        }   
     jPanel1.revalidate();
     jPanel1.repaint();
     }//GEN-LAST:event_formWindowOpened
-
-    
-    
+  
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
