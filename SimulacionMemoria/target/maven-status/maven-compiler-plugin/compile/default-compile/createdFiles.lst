@@ -3,6 +3,7 @@ com\mycompany\simulacionmemoria\pantallaProcesos$4.class
 com\mycompany\simulacionmemoria\pantallaSimulacion.class
 com\mycompany\simulacionmemoria\TablaParticion$3.class
 com\mycompany\simulacionmemoria\TablaParticion$5.class
+com\mycompany\simulacionmemoria\detalleTp$5.class
 com\mycompany\simulacionmemoria\pantallaProcesos$1.class
 com\mycompany\simulacionmemoria\pantallaSimulacion$2.class
 com\mycompany\simulacionmemoria\Menu$2.class
@@ -14,7 +15,8 @@ com\mycompany\simulacionmemoria\pantallaProcesos.class
 com\mycompany\simulacionmemoria\pantallaSimulacion$3.class
 com\mycompany\simulacionmemoria\pantallaProcesos$3.class
 com\mycompany\simulacionmemoria\detalleTp$2.class
-com\mycompany\simulacionmemoria\detalleTp$4$1.class
+com\mycompany\simulacionmemoria\pantallaProcesos$5.class
+com\mycompany\simulacionmemoria\detalleTp$5$1.class
 com\mycompany\simulacionmemoria\pantallaSimulacion$1.class
 com\mycompany\simulacionmemoria\detalleTp$4.class
 com\mycompany\simulacionmemoria\TablaParticion$4.class

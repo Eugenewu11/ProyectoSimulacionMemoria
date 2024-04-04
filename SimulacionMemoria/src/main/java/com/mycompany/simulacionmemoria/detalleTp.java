@@ -62,6 +62,11 @@ public class detalleTp extends javax.swing.JDialog {
 
         detalleMemoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         detalleMemoria.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        detalleMemoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detalleMemoriaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Número de particiones:");
@@ -161,6 +166,10 @@ public class detalleTp extends javax.swing.JDialog {
     private void nparticionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nparticionesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nparticionesActionPerformed
+
+    private void detalleMemoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detalleMemoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_detalleMemoriaActionPerformed
 
     /**
      * @param args the command line arguments
