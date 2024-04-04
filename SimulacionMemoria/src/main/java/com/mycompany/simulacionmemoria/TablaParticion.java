@@ -52,6 +52,7 @@ public class TablaParticion extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         memRestante = new javax.swing.JTextField();
         btnSiguiente = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
         tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -155,6 +156,14 @@ public class TablaParticion extends javax.swing.JFrame {
             }
         });
 
+        btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,7 +194,9 @@ public class TablaParticion extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnAsignartp, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnAsignartp, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
@@ -218,7 +229,10 @@ public class TablaParticion extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAsignartp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAsignartp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -315,9 +329,14 @@ public class TablaParticion extends javax.swing.JFrame {
              v.addElement(x.detalleMemoria.getText());
              //Agregar al modelo
              modelo1.addRow(v);
-             // Calcular y mostrar la memoria restante
              int memoriaRestante = cantidadTotalMemoria - memoriaTotalAsignada;
              memRestante.setText(String.valueOf(memoriaRestante));
+             if (contadorParticiones == nParticiones) {
+                // Calcular y mostrar la memoria restante
+                if (memoriaRestante > 0) {
+                    JOptionPane.showMessageDialog(this, "No puede sobrar memoria, asigne más memoria a las particiones.");
+                }
+             }
             }catch(NumberFormatException e) 
               {
                 JOptionPane.showMessageDialog(this, "Por favor, ingrese números válidos.");
@@ -334,6 +353,10 @@ public class TablaParticion extends javax.swing.JFrame {
         psim.setVisible(true);
         
     }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -373,6 +396,7 @@ public class TablaParticion extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextField NumPartTP;
     private javax.swing.JButton btnAsignartp;
+    public javax.swing.JButton btnEditar;
     public javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
