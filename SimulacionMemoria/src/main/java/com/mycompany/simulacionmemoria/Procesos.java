@@ -13,8 +13,8 @@ public class Procesos {
     private int Estado;
     private int memoriaRequerida;
     private int tiempoRequerido;
-    private int duracionProceso;
     private int actTiempo;
+    private int duracionProceso;
     private Timer timer;
      // Constructor
     public Procesos(String nombreProceso, int idProceso, String estadoProceso, int memoriaRequerida, 
@@ -65,5 +65,9 @@ public class Procesos {
 
     public void setDuracionProceso(int duracionProceso) {
         this.duracionProceso = duracionProceso;
+    }
+    public void ActTiempo(){
+        //actualizador de tiempo
+        this.actTiempo++;
     }
 }
