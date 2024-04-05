@@ -3,14 +3,19 @@ package com.mycompany.simulacionmemoria;
 
 //Aqui van los imports
 
+import javax.swing.Timer;
+
+
 
 public class Procesos {
     private String nombreProceso;
     private int idProceso;
+    private int Estado;
     private int memoriaRequerida;
     private int tiempoRequerido;
     private int duracionProceso;
-    
+    private int actTiempo;
+    private Timer timer;
      // Constructor
     public Procesos(String nombreProceso, int idProceso, String estadoProceso, int memoriaRequerida, 
             int tiempoRequerido, int duracionProceso){
@@ -21,7 +26,6 @@ public class Procesos {
         this.tiempoRequerido = tiempoRequerido;
         this.duracionProceso = duracionProceso;
     }
-
     // Getters y setters
     public String getNombreProceso() {
         return nombreProceso;
