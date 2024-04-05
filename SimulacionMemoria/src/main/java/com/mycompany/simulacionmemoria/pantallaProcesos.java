@@ -1,16 +1,14 @@
 
 package com.mycompany.simulacionmemoria;
 
-/**
- *
- * @author genew
- */
+//Imports
 import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 import java.util.LinkedList;
 
 public class pantallaProcesos extends javax.swing.JFrame {
    DefaultTableModel modelo;
+   //Manejo de clases con listas
    public LinkedList<Procesos> procesos;
    
    
@@ -132,7 +130,7 @@ public class pantallaProcesos extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
        this.procesos = new LinkedList();
         
-//inicializar modelo de dato
+//inicializar modelo de datos
        modelo = new DefaultTableModel()
           {
            //Evitar poder editar las celdas del JTable
@@ -146,9 +144,9 @@ public class pantallaProcesos extends javax.swing.JFrame {
        modelo.addColumn("Estado");//3
        modelo.addColumn("Tiempo requerido");//4
        modelo.addColumn("Duración");//5
-       
+       //Estblacer el modelo
        tablaProcesos.setModel(modelo);
-       
+       //Personalización de anchos por columna
        tablaProcesos.getColumnModel().getColumn(0).setMaxWidth(300);
        tablaProcesos.getColumnModel().getColumn(0).setPreferredWidth(300);
        tablaProcesos.getColumnModel().getColumn(1).setMaxWidth(300);

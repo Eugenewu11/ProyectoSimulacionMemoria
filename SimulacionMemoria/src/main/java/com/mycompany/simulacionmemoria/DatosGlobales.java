@@ -1,10 +1,10 @@
 
 package com.mycompany.simulacionmemoria;
 
-
+//Singleton del proyecto
 public class DatosGlobales {
 private static DatosGlobales instancia;
-
+    //Variables
     private int cantidadTotalMemoria;
     private int numeroParticiones;
     private String politicaUbicacion;
@@ -12,16 +12,16 @@ private static DatosGlobales instancia;
     private int tiempoMaximo;
 
     private DatosGlobales() {
-        // Constructor privado para evitar la creación de nuevas instancias.
+        
     }
-
+    // Constructor privado para evitar la creación de nuevas instancias.
     public static synchronized DatosGlobales obtenerInstancia() {
         if (instancia == null) {
             instancia = new DatosGlobales();
         }
         return instancia;
     }
-
+    //Setter y Getters
     public void setCantidadTotalMemoria(int cantidadTotalMemoria) {
         this.cantidadTotalMemoria = cantidadTotalMemoria;
     }

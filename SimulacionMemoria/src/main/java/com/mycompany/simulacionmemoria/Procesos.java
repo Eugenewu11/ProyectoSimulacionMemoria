@@ -1,13 +1,11 @@
 
 package com.mycompany.simulacionmemoria;
+//Clase para manejar datos que vendrán de pantallaProceso
 
-//Aqui van los imports
-
+//Imports
 import javax.swing.Timer;
-
-
-
 public class Procesos {
+    //Varibales
     private String nombreProceso;
     private int idProceso;
     private int Estado;
@@ -16,9 +14,9 @@ public class Procesos {
     private int actTiempo;
     private int duracionProceso;
     private Timer timer;
-     // Constructor
+    // Constructor
     public Procesos(String nombreProceso, int idProceso, String estadoProceso, int memoriaRequerida, 
-            int tiempoRequerido, int duracionProceso){
+                    int tiempoRequerido, int duracionProceso){
         //atributos
         this.nombreProceso = nombreProceso;
         this.idProceso = idProceso;
@@ -67,7 +65,7 @@ public class Procesos {
         this.duracionProceso = duracionProceso;
     }
     public void ActTiempo(){
-        //actualizador de tiempo
+        //actualizador de tiempo para columna "Duración"
         this.actTiempo++;
     }
 }

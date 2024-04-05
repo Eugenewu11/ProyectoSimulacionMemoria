@@ -1,6 +1,7 @@
 
 package com.mycompany.simulacionmemoria;
 
+//Imports
 import java.awt.List;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -8,21 +9,35 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 public class TablaParticion extends javax.swing.JFrame {
-   
-   DefaultTableModel modelo1;
-   DatosGlobales datosTablaP = DatosGlobales.obtenerInstancia();
+   //Declarar variables publicas dentro de JFrame TablaPartición
+   DefaultTableModel modelo1; //Permitirá hacer cambios personalizados a JTables
+   DatosGlobales datosTablaP = DatosGlobales.obtenerInstancia();//Instancia de singleton DatosGlobales
    int cantidadTotalMemoria = datosTablaP.getCantidadTotalMemoria();
    int numeroParticiones = datosTablaP.getNumeroParticiones();
    String politicaUbicacion = datosTablaP.getPoliticaUbicacion();
-   private int contadorParticiones = 0;
+   private int contadorParticiones = 0;//Contador para la Columna Numero Particiones
+   private ArrayList<Particion> particiones;//Arreglo para almacenar cuanta memoria se le asignó a n particiones
+
    
     public TablaParticion(){
     initComponents();
+    //Traer la información que se digitó en Menu a los TextFields de esta pantalla
     totalMemTP.setText(String.valueOf(cantidadTotalMemoria));
     NumPartTP.setText(String.valueOf(numeroParticiones));
     polUbiTP.setText(politicaUbicacion);
+    particiones = new ArrayList<>(); 
     }
     
+    private void updateTableModel() {
+    // Borrar los datos de la tabla existente
+    DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+    model.setRowCount(0);
+
+    // Agregar datos de la lista particiones
+    for (Particion p : particiones) {
+        model.addRow(new Object[]{p.getNombre(), p.getTamanio()});
+    }
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -261,10 +276,11 @@ public class TablaParticion extends javax.swing.JFrame {
 
     private void btnAsignartpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignartpActionPerformed
         
-        
+        //Instanciar JDialog detalleTp
         detalleTp x = new detalleTp(this,true);
-        x.setVisible(true);
+        x.setVisible(true);//Mostrarlo
         
+        //Si no se da click en btnCancelar
         if (x.getRootPane() != null)
             try{
                  int nParticiones = Integer.parseInt(NumPartTP.getText());
@@ -272,14 +288,14 @@ public class TablaParticion extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "El número de particiones debe ser mayor que cero.");
                     return;
                  } 
-                 int totalFilas = modelo1.getRowCount();
-                 if (totalFilas >= nParticiones) //Una vez se haya asignada memoria a todas las particiones se deshabilita la opcion de agregar
+                 int totalFilas = modelo1.getRowCount();//Obtenemos el numero de filas que se han ido creando
+                 if (totalFilas >= nParticiones) //Una vez se haya asignada memoria a todas las particiones se deshabilita la opcion de btnAgregar
                  {
                     JOptionPane.showMessageDialog(this, "Se ha alcanzado el límite de particiones.");
                     btnAsignartp.setVisible(false); 
                     return;
                  }
-                 
+                 //Validar que el contador de particiones no sea mayor que las n particiones asignadas
                  if (contadorParticiones > nParticiones) {
                     JOptionPane.showMessageDialog(this, "No se pueden agregar más particiones.");
                     return;
@@ -289,7 +305,7 @@ public class TablaParticion extends javax.swing.JFrame {
                 memoriaAsignada = Integer.parseInt(x.detalleMemoria.getText());
                 if (memoriaAsignada <= 0) {
                     JOptionPane.showMessageDialog(this, "La cantidad de memoria asignada debe ser mayor que cero.");
-                    contadorParticiones--;//contador de particiones
+                    contadorParticiones--;//contador de particiones disminuye
                     return;
                 }
             } catch (NumberFormatException e) {
@@ -298,23 +314,35 @@ public class TablaParticion extends javax.swing.JFrame {
             }
 
             int memoriaTotalAsignada = 0;
+            //Variable que se irá sumando cada vez que se ingrese memoria a una partición
             for (int i = 0; i < modelo1.getRowCount(); i++) {
                 memoriaTotalAsignada += Integer.parseInt(modelo1.getValueAt(i, 1).toString());
             }
             memoriaTotalAsignada += memoriaAsignada;
-
+            //Memoria asignada no puede ser mayor que la total
             if (memoriaTotalAsignada > cantidadTotalMemoria) {
                 JOptionPane.showMessageDialog(this, "La suma de la memoria asignada supera la memoria total disponible.");
                 return;
             }
             contadorParticiones++;//contador de particiones
+            //Cada vez que se de al btnAceptar se creará una fila y un sumará uno a contador
              Vector v = new Vector();
              v.addElement(contadorParticiones);
              v.addElement(x.detalleMemoria.getText());
              //Agregar al modelo
              modelo1.addRow(v);
-             int memoriaRestante = cantidadTotalMemoria - memoriaTotalAsignada;
-             memRestante.setText(String.valueOf(memoriaRestante));
+             
+            Particion nuevaParticion = new Particion(contadorParticiones + "", memoriaAsignada);
+            particiones.add(nuevaParticion); // Agregar la partición a la lista
+            // Actualizar el modelo de tabla 
+            updateTableModel();
+            
+            //Variable para TextField Memoria que va sobrando
+            int memoriaRestante = cantidadTotalMemoria;
+            for (Particion particion : particiones) {
+                memoriaRestante -= particion.getTamanio();
+            }
+            memRestante.setText(String.valueOf(memoriaRestante));
              if (contadorParticiones == nParticiones) {
                 // Calcular y mostrar la memoria restante
                 if (memoriaRestante > 0) {
@@ -324,17 +352,15 @@ public class TablaParticion extends javax.swing.JFrame {
             }catch(NumberFormatException e) 
               {
                 JOptionPane.showMessageDialog(this, "Por favor, ingrese números válidos.");
-              }
-        
-        
+              }        
     }//GEN-LAST:event_btnAsignartpActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
+        //Instanciar siguiente pantalla del Proyecto
         pantallaSimulacion psim = new pantallaSimulacion();
-        this.setVisible(false);
-        this.dispose();
-        psim.setVisible(true);
+        this.setVisible(false);//No hacemos visible la pantalla actual
+        this.dispose();//La eliminamos de la RAM
+        psim.setVisible(true);//Hacemos visible la siguiente pantalla pantallaSimulación
         
     }//GEN-LAST:event_btnSiguienteActionPerformed
 

@@ -1,16 +1,14 @@
 
 package com.mycompany.simulacionmemoria;
 
+//Imports
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- *
- * @author genew
- */
+
 public class pantallaSimulacion extends javax.swing.JFrame {
     //datos globales de JFrame pantallaSimulacion
     //clase global de proyecto
@@ -18,8 +16,10 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     int numeroParticiones = datosPsim.getNumeroParticiones();
     //Personalizacion de colores
     Color color1 = new Color(0,153,0);
+    //Maximo de particiones es 20, se hará un vector 5x4
     int maxFilas = 5;
     int maxColumnas = 4;
+    
     public pantallaSimulacion() {
         initComponents();
     }
@@ -114,9 +114,9 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-        pantallaProcesos procesos = new pantallaProcesos();
-        this.setVisible(true);
-        procesos.setVisible(true);
+        pantallaProcesos procesos = new pantallaProcesos(); //Instanciar pantalla para registrar un proceso
+        this.setVisible(true);//Mantener visible esta pantalla
+        procesos.setVisible(true);//Hacer visible el otro JFrame
         
     }//GEN-LAST:event_btnRegistroActionPerformed
 
@@ -125,7 +125,8 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSimularActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-// Cálculo de dimensiones
+        // Cálculo de dimensiones
+        //JPanel1 es el JPanel que está sobre el JFrame
         int anchoPanelHijo = jPanel1.getWidth() / maxColumnas;
         int altoPanelHijo = jPanel1.getHeight() / maxFilas;
 
@@ -153,8 +154,8 @@ public class pantallaSimulacion extends javax.swing.JFrame {
                 }
             }
         }   
-    jPanel1.revalidate();
-    jPanel1.repaint();
+    jPanel1.revalidate(); //Revalidar los datos
+    jPanel1.repaint();//Re dibujamos en el instante para que aparezcan los nuevos paneles
     }//GEN-LAST:event_formWindowOpened
   
     public static void main(String args[]) {

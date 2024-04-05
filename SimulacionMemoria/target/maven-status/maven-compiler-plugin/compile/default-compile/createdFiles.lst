@@ -1,7 +1,9 @@
 com\mycompany\simulacionmemoria\detalleTp$3.class
+com\mycompany\simulacionmemoria\Particion.class
 com\mycompany\simulacionmemoria\pantallaProcesos$4.class
 com\mycompany\simulacionmemoria\pantallaSimulacion.class
 com\mycompany\simulacionmemoria\TablaParticion$3.class
+com\mycompany\simulacionmemoria\ListenerTiempo.class
 com\mycompany\simulacionmemoria\TablaParticion$5.class
 com\mycompany\simulacionmemoria\detalleTp$5.class
 com\mycompany\simulacionmemoria\pantallaProcesos$1.class
