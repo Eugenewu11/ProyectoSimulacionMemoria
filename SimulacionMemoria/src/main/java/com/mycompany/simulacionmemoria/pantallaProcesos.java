@@ -7,10 +7,13 @@ package com.mycompany.simulacionmemoria;
  */
 import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
+import java.util.LinkedList;
 
 public class pantallaProcesos extends javax.swing.JFrame {
    DefaultTableModel modelo;
-
+   public LinkedList<Procesos> procesos;
+   
+   
     public pantallaProcesos() {
         initComponents();
     }
@@ -127,7 +130,9 @@ public class pantallaProcesos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       //inicializar modelo de dato
+       this.procesos = new LinkedList();
+        
+//inicializar modelo de dato
        modelo = new DefaultTableModel()
           {
            //Evitar poder editar las celdas del JTable
