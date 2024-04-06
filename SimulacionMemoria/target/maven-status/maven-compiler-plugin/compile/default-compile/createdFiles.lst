@@ -4,6 +4,7 @@ com\mycompany\simulacionmemoria\pantallaProcesos$4.class
 com\mycompany\simulacionmemoria\pantallaSimulacion.class
 com\mycompany\simulacionmemoria\TablaParticion$3.class
 com\mycompany\simulacionmemoria\ListenerTiempo.class
+com\mycompany\simulacionmemoria\pantallaProcesos$6.class
 com\mycompany\simulacionmemoria\TablaParticion$5.class
 com\mycompany\simulacionmemoria\detalleTp$5.class
 com\mycompany\simulacionmemoria\pantallaProcesos$1.class
@@ -24,6 +25,7 @@ com\mycompany\simulacionmemoria\detalleTp$4.class
 com\mycompany\simulacionmemoria\TablaParticion$4.class
 com\mycompany\simulacionmemoria\Menu$1.class
 com\mycompany\simulacionmemoria\SimulacionMemoria.class
+com\mycompany\simulacionmemoria\TablaParticion$7.class
 com\mycompany\simulacionmemoria\detalleTp$1.class
 com\mycompany\simulacionmemoria\pantallaProcesos$2.class
 com\mycompany\simulacionmemoria\DatosGlobales.class

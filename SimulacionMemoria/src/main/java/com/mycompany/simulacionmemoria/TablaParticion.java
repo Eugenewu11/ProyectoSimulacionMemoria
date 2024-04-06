@@ -62,6 +62,7 @@ public class TablaParticion extends javax.swing.JFrame {
         memRestante = new javax.swing.JTextField();
         btnSiguiente = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        btnEditar = new javax.swing.JButton();
 
         tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -167,6 +168,14 @@ public class TablaParticion extends javax.swing.JFrame {
 
         jLabel9.setText("ADVERTENCIA: No debe sobrar memoria por asignar!");
 
+        btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -198,7 +207,9 @@ public class TablaParticion extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnAsignartp, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnAsignartp, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
@@ -233,7 +244,10 @@ public class TablaParticion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAsignartp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAsignartp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -364,6 +378,73 @@ public class TablaParticion extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int filaSeleccionada = tabla.getSelectedRow();
+    
+    // Verificar si se seleccionó una fila
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione una partición para editar.");
+        return;
+    }
+    
+    // Obtener la partición seleccionada
+    Particion particionSeleccionada = particiones.get(filaSeleccionada);
+    
+    // Crear un diálogo para editar la cantidad de memoria asignada
+    String nuevaMemoriaString = JOptionPane.showInputDialog(this, "Ingrese la nueva cantidad de memoria asignada:");
+    
+    // Validar si se canceló la edición o si se ingresó una cantidad inválida
+    if (nuevaMemoriaString == null || nuevaMemoriaString.isEmpty()) {
+        return; // Cancelar la operación si se cerró el diálogo o no se ingresó nada
+    }
+    
+    // Convertir la nueva cantidad de memoria a entero
+    int nuevaMemoria;
+    try {
+        nuevaMemoria = Integer.parseInt(nuevaMemoriaString);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese una cantidad de memoria válida.");
+        return;
+    }
+    
+    // Validar si la nueva cantidad de memoria es válida
+    if (nuevaMemoria < 0) {
+        JOptionPane.showMessageDialog(this, "La cantidad de memoria asignada no puede ser menor que cero.");
+        return;
+    }
+    
+    // Calcular la memoria total asignada actualmente
+    int memoriaTotalAsignada = 0;
+    for (Particion particion : particiones) {
+        memoriaTotalAsignada += particion.getTamanio();
+    }
+    
+    // Restar el tamaño original de la partición editada
+    memoriaTotalAsignada -= particionSeleccionada.getTamanio();
+    
+    // Verificar si la nueva cantidad de memoria supera la memoria total
+    if (nuevaMemoria > cantidadTotalMemoria - memoriaTotalAsignada) {
+        JOptionPane.showMessageDialog(this, "La suma de la memoria asignada supera la memoria total disponible.");
+        return;
+    }
+    
+    // Actualizar la cantidad de memoria asignada en la partición seleccionada
+    particionSeleccionada.setTamanio(nuevaMemoria);
+    
+    // Recalcular la memoria total asignada
+    memoriaTotalAsignada += nuevaMemoria;
+    
+    // Calcular y mostrar la memoria restante
+    int memoriaRestante = cantidadTotalMemoria - memoriaTotalAsignada;
+    memRestante.setText(String.valueOf(memoriaRestante));
+    if (memoriaRestante < 0) {
+        JOptionPane.showMessageDialog(this, "No puede sobrar memoria, asigne menos memoria a las particiones.");
+    }
+    
+    // Actualizar el modelo de la tabla
+    updateTableModel();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -399,6 +480,7 @@ public class TablaParticion extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextField NumPartTP;
     private javax.swing.JButton btnAsignartp;
+    public javax.swing.JButton btnEditar;
     public javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

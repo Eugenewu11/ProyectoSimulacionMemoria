@@ -77,6 +77,11 @@ public class pantallaProcesos extends javax.swing.JFrame {
 
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,6 +173,10 @@ public class pantallaProcesos extends javax.swing.JFrame {
     private void txtFmemoriaRequeridaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFmemoriaRequeridaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFmemoriaRequeridaActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        //
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
      * @param args the command line arguments

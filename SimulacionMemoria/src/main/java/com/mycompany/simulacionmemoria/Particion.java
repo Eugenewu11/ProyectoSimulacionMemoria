@@ -20,6 +20,9 @@ public class Particion {
     public int getTamanio() {
         return tamanio;
     }
+    public void setTamanio(int nuevoTamanio) {
+        this.tamanio = nuevoTamanio;
+    }
     //Creación de particiones para JFrame TablaPartición
     public static Particion[] crearParticiones(int numeroParticiones, int tamanioTotal) {
         Particion[] particiones = new Particion[numeroParticiones];
