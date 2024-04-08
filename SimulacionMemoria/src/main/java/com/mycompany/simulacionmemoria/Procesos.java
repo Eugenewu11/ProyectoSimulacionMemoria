@@ -8,21 +8,26 @@ public class Procesos {
     //Varibales
     private String nombreProceso;
     private int idProceso;
-    private int Estado;
+    private String estadoProceso;
     private int memoriaRequerida;
     private int tiempoRequerido;
     private int actTiempo;
     private int duracionProceso;
     private Timer timer;
     // Constructor
-    public Procesos(String nombreProceso, int idProceso, String estadoProceso, int memoriaRequerida, 
+    public Procesos(String nombreProceso, int idProceso,String estadoProceso, int memoriaRequerida, 
                     int tiempoRequerido, int duracionProceso){
         //atributos
         this.nombreProceso = nombreProceso;
         this.idProceso = idProceso;
+        this.estadoProceso = estadoProceso;
         this.memoriaRequerida = memoriaRequerida;
         this.tiempoRequerido = tiempoRequerido;
         this.duracionProceso = duracionProceso;
+        timer = new Timer(1000, (e) -> {
+            actTiempo++;
+        });
+        timer.start();
     }
     // Getters y setters
     public String getNombreProceso() {
@@ -67,5 +72,14 @@ public class Procesos {
     public void ActTiempo(){
         //actualizador de tiempo para columna "Duración"
         this.actTiempo++;
+    }
+    public String getEstado(){
+        return estadoProceso;
+    }
+    public void setEstado(String estadoProceso){
+        this.estadoProceso = estadoProceso;
+    }
+    public Timer getTimer() {
+        return timer;
     }
 }

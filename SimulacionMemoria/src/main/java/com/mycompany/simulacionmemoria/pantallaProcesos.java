@@ -5,12 +5,11 @@ package com.mycompany.simulacionmemoria;
 import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 
 public class pantallaProcesos extends javax.swing.JFrame {
    DefaultTableModel modelo;
-   //Manejo de clases con listas
    public LinkedList<Procesos> procesos;
-   
    
     public pantallaProcesos() {
         initComponents();
@@ -133,8 +132,7 @@ public class pantallaProcesos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       this.procesos = new LinkedList();
-        
+       this.procesos = new LinkedList();       
 //inicializar modelo de datos
        modelo = new DefaultTableModel()
           {
@@ -175,44 +173,37 @@ public class pantallaProcesos extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFmemoriaRequeridaActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        //
-    }//GEN-LAST:event_btnRegistrarActionPerformed
+        //Obtenemos la info de los textField
+        String nombreProceso = txtFprocesoNuevo.getText();
+        int memoriaRequerida = Integer.parseInt(txtFmemoriaRequerida.getText());
+        //Encontramos cual partición tiene mayor memoria recorriendo el arreglo de particiones hecha en JFrame TablaPartición
+        Particion mayorParticion = Particion.encontrarMayor(Particion.crearParticiones(DatosGlobales.obtenerInstancia().getNumeroParticiones(),DatosGlobales.obtenerInstancia().getCantidadTotalMemoria()));
+        String estado = (memoriaRequerida > mayorParticion.getTamanio()) ? "En espera" : "En ejecución";
+        //Validar que el proceso que se obtiene no sea mayor que el tamaño de partición más grande
+        if (memoriaRequerida <= mayorParticion.getTamanio() || memoriaRequerida == mayorParticion.getTamanio()) {
+            //Estblece tiempo random requerido para que una aplicación este en memoria
+            int tiempoRequerido = (int) (Math.random() * (DatosGlobales.obtenerInstancia().getTiempoMaximo() - DatosGlobales.obtenerInstancia().getTiempoMinimo()) + DatosGlobales.obtenerInstancia().getTiempoMinimo());
+            int idProceso = procesos.size() + 1;
+            Procesos proceso = new Procesos(nombreProceso, idProceso, estado, memoriaRequerida, tiempoRequerido, 0);
+            procesos.add(proceso);
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(pantallaProcesos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(pantallaProcesos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(pantallaProcesos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(pantallaProcesos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Object[] fila = {proceso.getIdProceso(), proceso.getNombreProceso(), proceso.getMemoriaRequerida(), proceso.getEstado(), proceso.getTiempoRequerido(), proceso.getDuracionProceso()};
+            modelo.addRow(fila);
+        } else {
+            JOptionPane.showMessageDialog(this, "La memoria requerida es mayor que la partición más grande.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+    private void removeProceso(int index) {
+        Procesos proceso = procesos.remove(index);
+        proceso.getTimer().stop();
+    }
+    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new pantallaProcesos().setVisible(true);
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnRegistrar;
     private javax.swing.JLabel jLabel1;
