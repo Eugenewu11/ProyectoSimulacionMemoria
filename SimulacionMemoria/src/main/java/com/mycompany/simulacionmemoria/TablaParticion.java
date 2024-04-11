@@ -12,32 +12,38 @@ public class TablaParticion extends javax.swing.JFrame {
    //Declarar variables publicas dentro de JFrame TablaPartición
    DefaultTableModel modelo1; //Permitirá hacer cambios personalizados a JTables
    DatosGlobales datosTablaP = DatosGlobales.obtenerInstancia();//Instancia de singleton DatosGlobales
-   int cantidadTotalMemoria = datosTablaP.getCantidadTotalMemoria();
-   int numeroParticiones = datosTablaP.getNumeroParticiones();
-   String politicaUbicacion = datosTablaP.getPoliticaUbicacion();
-   private int contadorParticiones = 0;//Contador para la Columna Numero Particiones
-   private ArrayList<Particion> particiones;//Arreglo para almacenar cuanta memoria se le asignó a n particiones
-
+   private int cantidadTotalMemoria;
+   private int numeroParticiones;
+   private String politicaUbicacion;
+   private int contadorParticiones = 0;
+   private ArrayList<Particion> particiones = new ArrayList<>();
+   private int mayorTamanioParticion = 0;
+      
+    public int getMayorTamanioParticion() {
+        return mayorTamanioParticion;        
+    }
    
     public TablaParticion(){
     initComponents();
     //Traer la información que se digitó en Menu a los TextFields de esta pantalla
-    totalMemTP.setText(String.valueOf(cantidadTotalMemoria));
-    NumPartTP.setText(String.valueOf(numeroParticiones));
-    polUbiTP.setText(politicaUbicacion);
-    particiones = new ArrayList<>(); 
+        cantidadTotalMemoria = datosTablaP.getCantidadTotalMemoria();
+        numeroParticiones = datosTablaP.getNumeroParticiones();
+        politicaUbicacion = datosTablaP.getPoliticaUbicacion();
+        totalMemTP.setText(String.valueOf(cantidadTotalMemoria));
+        NumPartTP.setText(String.valueOf(numeroParticiones));
+        polUbiTP.setText(politicaUbicacion); 
     }
     
     private void updateTableModel() {
-    // Borrar los datos de la tabla existente
-    DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-    model.setRowCount(0);
+        // Clear existing table data
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+         model.setRowCount(0);
 
-    // Agregar datos de la lista particiones
-    for (Particion p : particiones) {
-        model.addRow(new Object[]{p.getNombre(), p.getTamanio()});
+          // Add data from particiones list
+        for (Particion p : particiones) {
+          model.addRow(new Object[]{p.getNombre(), p.getTamanio()});
+        }
     }
-}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -275,6 +281,7 @@ public class TablaParticion extends javax.swing.JFrame {
                 return false;
            }
       };
+       //Crear columnas personalizadas
         modelo1.addColumn("Partición");
         modelo1.addColumn("Memoria Asignada");
 
@@ -326,7 +333,7 @@ public class TablaParticion extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Por favor, ingrese una cantidad de memoria válida.");
                 return;
             }
-
+            //Contador para la suma total de todas las memorias de las particiones
             int memoriaTotalAsignada = 0;
             //Variable que se irá sumando cada vez que se ingrese memoria a una partición
             for (int i = 0; i < modelo1.getRowCount(); i++) {
@@ -339,18 +346,28 @@ public class TablaParticion extends javax.swing.JFrame {
                 return;
             }
             contadorParticiones++;//contador de particiones
-            //Cada vez que se de al btnAceptar se creará una fila y un sumará uno a contador
-             Vector v = new Vector();
-             v.addElement(contadorParticiones);
-             v.addElement(x.detalleMemoria.getText());
-             //Agregar al modelo
-             modelo1.addRow(v);
-             
-            Particion nuevaParticion = new Particion(contadorParticiones + "", memoriaAsignada);
-            particiones.add(nuevaParticion); // Agregar la partición a la lista
-            // Actualizar el modelo de tabla 
-            updateTableModel();
             
+            // Encontrar el tamaño de la partición más grande
+            for (Particion particion : particiones) {
+            if (particion.getTamanio() > mayorTamanioParticion) {
+            mayorTamanioParticion = particion.getTamanio();
+                }
+            }
+            System.out.println("Tamaño de la partición más grande: " + mayorTamanioParticion);
+
+            Vector v = new Vector();
+            v.addElement(contadorParticiones);
+            v.addElement(x.detalleMemoria.getText());
+            // Agregar al modelo
+            modelo1.addRow(v);
+
+            // Crear la nueva partición y agregarla a la lista de particiones
+            Particion nuevaParticion = new Particion(contadorParticiones + "", memoriaAsignada);
+            particiones.add(nuevaParticion);
+
+            // Actualizar el modelo de la tabla
+            updateTableModel();
+
             //Variable para TextField Memoria que va sobrando
             int memoriaRestante = cantidadTotalMemoria;
             for (Particion particion : particiones) {

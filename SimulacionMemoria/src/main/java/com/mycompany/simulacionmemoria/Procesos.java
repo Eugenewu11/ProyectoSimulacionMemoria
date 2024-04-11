@@ -11,7 +11,7 @@ public class Procesos {
     private String estadoProceso;
     private int memoriaRequerida;
     private int tiempoRequerido;
-    private int actTiempo;
+    private int actTiempo;//ActualizarTiempo
     private int duracionProceso;
     private Timer timer;
     // Constructor

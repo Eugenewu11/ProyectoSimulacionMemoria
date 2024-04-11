@@ -2,20 +2,19 @@
 package com.mycompany.simulacionmemoria;
 
 //Imports
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
 
 public class pantallaProcesos extends javax.swing.JFrame {
-   DefaultTableModel modelo;
-   public LinkedList<Procesos> procesos;
+  DefaultTableModel modelo;
+  public LinkedList<Procesos> procesos;
    
     public pantallaProcesos() {
         initComponents();
-    }
-
-    
+    } 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -133,7 +132,7 @@ public class pantallaProcesos extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
        this.procesos = new LinkedList();       
-//inicializar modelo de datos
+        //inicializar modelo de datos
        modelo = new DefaultTableModel()
           {
            //Evitar poder editar las celdas del JTable
@@ -180,7 +179,7 @@ public class pantallaProcesos extends javax.swing.JFrame {
         Particion mayorParticion = Particion.encontrarMayor(Particion.crearParticiones(DatosGlobales.obtenerInstancia().getNumeroParticiones(),DatosGlobales.obtenerInstancia().getCantidadTotalMemoria()));
         String estado = (memoriaRequerida > mayorParticion.getTamanio()) ? "En espera" : "En ejecución";
         //Validar que el proceso que se obtiene no sea mayor que el tamaño de partición más grande
-        if (memoriaRequerida <= mayorParticion.getTamanio() || memoriaRequerida == mayorParticion.getTamanio()) {
+        if (memoriaRequerida <= mayorParticion.getTamanio()) {
             //Estblece tiempo random requerido para que una aplicación este en memoria
             int tiempoRequerido = (int) (Math.random() * (DatosGlobales.obtenerInstancia().getTiempoMaximo() - DatosGlobales.obtenerInstancia().getTiempoMinimo()) + DatosGlobales.obtenerInstancia().getTiempoMinimo());
             int idProceso = procesos.size() + 1;
@@ -192,11 +191,17 @@ public class pantallaProcesos extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "La memoria requerida es mayor que la partición más grande.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        System.out.println("Mayor tamano particion segun jframe pantallaprocesos: "+mayorParticion.getTamanio());
     }//GEN-LAST:event_btnRegistrarActionPerformed
-    private void removeProceso(int index) {
-        Procesos proceso = procesos.remove(index);
-        proceso.getTimer().stop();
+    
+    private void actualizarTablaProcesos() {
+    // Update table with process information (modify based on your process class)
+    modelo.setRowCount(0);  // Clear existing data
+    for (Procesos proceso : procesos) {
+      Object[] fila = {proceso.getNombreProceso(), proceso.getMemoriaRequerida(), proceso.getEstado()};  // Update columns as needed
+      modelo.addRow(fila);
     }
+  }
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -23,15 +23,20 @@ public class Particion {
     public void setTamanio(int nuevoTamanio) {
         this.tamanio = nuevoTamanio;
     }
-    //Creación de particiones para JFrame TablaPartición
     public static Particion[] crearParticiones(int numeroParticiones, int tamanioTotal) {
-        Particion[] particiones = new Particion[numeroParticiones];
-        int tamanioParticion = tamanioTotal / numeroParticiones;
-        for (int i = 0; i < numeroParticiones; i++) {
-            particiones[i] = new Particion("Particion " + (i + 1), tamanioParticion);
-        }
-        return particiones;
+    Particion[] particiones = new Particion[numeroParticiones];
+    int tamanoParticion = tamanioTotal / numeroParticiones;
+    int resto = tamanioTotal % numeroParticiones;
+
+    for (int i = 0; i < numeroParticiones - 1; i++) {
+        particiones[i] = new Particion("Partición " + (i + 1), tamanoParticion);
     }
+
+    // Asignar el resto de la memoria a la última partición
+    particiones[numeroParticiones - 1] = new Particion("Partición " + numeroParticiones, tamanoParticion + resto);
+
+    return particiones;
+}
     //Encontrar cual n partición es la que tiene mayor memoria
     //Se utilizará para políticas de ubicación
     public static Particion encontrarMayor(Particion[] particiones) {
