@@ -2,7 +2,6 @@
 package com.mycompany.simulacionmemoria;
 
 //Imports
-import java.awt.List;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
@@ -19,10 +18,6 @@ public class TablaParticion extends javax.swing.JFrame {
    private ArrayList<Particion> particiones = new ArrayList<>();
    private int mayorTamanioParticion = 0;
       
-    public int getMayorTamanioParticion() {
-        return mayorTamanioParticion;        
-    }
-   
     public TablaParticion(){
     initComponents();
     //Traer la información que se digitó en Menu a los TextFields de esta pantalla
@@ -32,6 +27,10 @@ public class TablaParticion extends javax.swing.JFrame {
         totalMemTP.setText(String.valueOf(cantidadTotalMemoria));
         NumPartTP.setText(String.valueOf(numeroParticiones));
         polUbiTP.setText(politicaUbicacion); 
+    }
+    
+     public int getMayorTamanioParticion() {
+        return mayorTamanioParticion;        
     }
     
     private void updateTableModel() {
@@ -364,6 +363,7 @@ public class TablaParticion extends javax.swing.JFrame {
             // Crear la nueva partición y agregarla a la lista de particiones
             Particion nuevaParticion = new Particion(contadorParticiones + "", memoriaAsignada);
             particiones.add(nuevaParticion);
+            Particion.agregarParticion(nuevaParticion);
 
             // Actualizar el modelo de la tabla
             updateTableModel();

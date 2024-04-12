@@ -7,11 +7,15 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class pantallaProcesos extends javax.swing.JFrame {
   DefaultTableModel modelo;
   public LinkedList<Procesos> procesos;
-   
+  public ArrayList<Particion> particiones = Particion.obtenerParticiones();
+  private Timer timer;//Timer para columna de duracion de un proceso
+  
     public pantallaProcesos() {
         initComponents();
     } 
@@ -162,7 +166,7 @@ public class pantallaProcesos extends javax.swing.JFrame {
        tablaProcesos.getColumnModel().getColumn(5).setMaxWidth(300);
        tablaProcesos.getColumnModel().getColumn(5).setPreferredWidth(300);  
     }//GEN-LAST:event_formWindowOpened
-
+    
     private void txtFprocesoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFprocesoNuevoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFprocesoNuevoActionPerformed
@@ -176,32 +180,55 @@ public class pantallaProcesos extends javax.swing.JFrame {
         String nombreProceso = txtFprocesoNuevo.getText();
         int memoriaRequerida = Integer.parseInt(txtFmemoriaRequerida.getText());
         //Encontramos cual partición tiene mayor memoria recorriendo el arreglo de particiones hecha en JFrame TablaPartición
-        Particion mayorParticion = Particion.encontrarMayor(Particion.crearParticiones(DatosGlobales.obtenerInstancia().getNumeroParticiones(),DatosGlobales.obtenerInstancia().getCantidadTotalMemoria()));
-        String estado = (memoriaRequerida > mayorParticion.getTamanio()) ? "En espera" : "En ejecución";
+        Particion mayorParticion = Particion.encontrarMayor(particiones);
         //Validar que el proceso que se obtiene no sea mayor que el tamaño de partición más grande
         if (memoriaRequerida <= mayorParticion.getTamanio()) {
             //Estblece tiempo random requerido para que una aplicación este en memoria
             int tiempoRequerido = (int) (Math.random() * (DatosGlobales.obtenerInstancia().getTiempoMaximo() - DatosGlobales.obtenerInstancia().getTiempoMinimo()) + DatosGlobales.obtenerInstancia().getTiempoMinimo());
+            // Generar un id para el proceso
             int idProceso = procesos.size() + 1;
+            //Establecemos el estado
+            String estado = (memoriaRequerida > mayorParticion.getTamanio()) ? "En espera" : "En ejecución";
+            //Creamos un objeto para cada proceso
             Procesos proceso = new Procesos(nombreProceso, idProceso, estado, memoriaRequerida, tiempoRequerido, 0);
             procesos.add(proceso);
 
             Object[] fila = {proceso.getIdProceso(), proceso.getNombreProceso(), proceso.getMemoriaRequerida(), proceso.getEstado(), proceso.getTiempoRequerido(), proceso.getDuracionProceso()};
             modelo.addRow(fila);
+            
+            //Empieza el timer
+            empezarTimer(proceso);
+
         } else {
             JOptionPane.showMessageDialog(this, "La memoria requerida es mayor que la partición más grande.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         System.out.println("Mayor tamano particion segun jframe pantallaprocesos: "+mayorParticion.getTamanio());
     }//GEN-LAST:event_btnRegistrarActionPerformed
+    //Otras funciones
+     private void empezarTimer(Procesos proceso) {
+        //Crear un nuevo timer por proceso
+        timer = new Timer();
+        TimerTask task = new TimerTask() {
+            int duracionActual = 0; 
+
+            @Override
+            public void run() {
+                // Update duration in the table model
+                duracionActual++;
+                proceso.setDuracionProceso(duracionActual);
+                int RowProceso = modelo.getRowCount() - 1; //Asumiendo que el nuevo proceso es agregado al final
+                modelo.setValueAt(duracionActual, RowProceso, 5);
+
+                //Parar el timer cuando llega a tiempo requerido
+                if (duracionActual == proceso.getTiempoRequerido()) {
+                    timer.cancel();
+                }
+            }
+        };
+        //Timer en segundos
+        timer.schedule(task, 0, 1000);
+     }
     
-    private void actualizarTablaProcesos() {
-    // Update table with process information (modify based on your process class)
-    modelo.setRowCount(0);  // Clear existing data
-    for (Procesos proceso : procesos) {
-      Object[] fila = {proceso.getNombreProceso(), proceso.getMemoriaRequerida(), proceso.getEstado()};  // Update columns as needed
-      modelo.addRow(fila);
-    }
-  }
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

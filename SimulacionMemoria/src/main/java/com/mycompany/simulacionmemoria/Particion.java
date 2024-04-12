@@ -2,10 +2,14 @@
 package com.mycompany.simulacionmemoria;
 
 //Imports
+
+import java.util.ArrayList;
+
 public class Particion {
     //Variables
     private String nombre;
     private int tamanio;
+    private static ArrayList<Particion> particiones = new ArrayList<>();
     //Constructor
     public Particion(String nombre, int tamanio) {
         //Atributos
@@ -23,6 +27,13 @@ public class Particion {
     public void setTamanio(int nuevoTamanio) {
         this.tamanio = nuevoTamanio;
     }
+    public static void agregarParticion(Particion particion) {
+        particiones.add(particion);
+    }
+
+    public static ArrayList<Particion> obtenerParticiones() {
+        return particiones;
+    }
     public static Particion[] crearParticiones(int numeroParticiones, int tamanioTotal) {
     Particion[] particiones = new Particion[numeroParticiones];
     int tamanoParticion = tamanioTotal / numeroParticiones;
@@ -38,14 +49,13 @@ public class Particion {
     return particiones;
 }
     //Encontrar cual n partición es la que tiene mayor memoria
-    //Se utilizará para políticas de ubicación
-    public static Particion encontrarMayor(Particion[] particiones) {
-        Particion mayor = particiones[0];
-        for (int i = 1; i < particiones.length; i++) {
-            if (particiones[i].getTamanio() > mayor.getTamanio()) {
-                mayor = particiones[i];
-            }
-        }
-        return mayor;
+    public static Particion encontrarMayor(ArrayList<Particion> particiones) {
+    Particion mayor = particiones.get(0); // Initialize with first partition
+    for (Particion particion : particiones) {
+      if (particion.getTamanio() > mayor.getTamanio()) {
+        mayor = particion; // Update 'mayor' if current partition is larger
+      }
     }
+    return mayor; // Return the largest partition found
+  }
 }
