@@ -4,9 +4,11 @@ package com.mycompany.simulacionmemoria;
 //Imports
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
@@ -15,22 +17,27 @@ import javax.swing.table.DefaultTableModel;
 
 public class pantallaSimulacion extends javax.swing.JFrame {
     //datos globales de JFrame pantallaSimulacion
-    //clase global de proyecto
     DatosGlobales datosPsim = DatosGlobales.obtenerInstancia();
     int numeroParticiones = datosPsim.getNumeroParticiones();
-    //Lista para procesos
-     public LinkedList<Procesos> procesos;
+    String politicaUbicacion = datosPsim.getPoliticaUbicacion();
+    private ArrayList<claseParticion> particiones;
+    private LinkedList<claseProcesos> procesos;
+    
     //Personalizacion de colores
-    Color color1 = new Color(0,153,0);
+    Color colorLibre = new Color(0,153,0); //Verde
+    Color colorEnUso = new Color(255, 215, 0);//Amarillo
     //Maximo de particiones es 20, se hará un vector 5x4
     int maxFilas = 5;
     int maxColumnas = 4;
     //TablaProcesos
     private javax.swing.JTable tablaProcesos;
     private int duracionActual;
+    
+    private pantallaProcesos pantallaProcesosInstancia;
     public pantallaSimulacion() {
         initComponents();
-        
+        //procesos = new LinkedList<>();//skdxbaxcajs
+        particiones = new ArrayList<>();
     }
 
     @SuppressWarnings("unchecked")
@@ -118,67 +125,21 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-        pantallaProcesos procesos = new pantallaProcesos(); //Instanciar pantalla para registrar un proceso
+        pantallaProcesosInstancia = new pantallaProcesos(); //Instanciar pantalla para registrar un proceso
         this.setVisible(true);//Mantener visible esta pantalla
-        procesos.setVisible(true);//Hacer visible el otro JFrame
+        pantallaProcesosInstancia.setVisible(true);//Hacer visible el otro JFrame
         
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
-        Thread simulacionThread = new Thread(() -> {
-            // Recorrer la lista de procesos y simular su ejecución
-            for (Procesos proceso : procesos) {
-                // Cambiar el estado del proceso a "En espera"
-                proceso.setEstado("En espera");
-                // Actualizar la interfaz gráfica con el estado del proceso
-                actualizarInterfazGrafica(proceso);
-                // Esperar el tiempo requerido antes de iniciar el proceso
-                try {
-                    Thread.sleep(proceso.getTiempoRequerido() * 1000); // Convertir segundos a milisegundos
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                // Cambiar el estado del proceso a "En memoria"
-                proceso.setEstado("En ejecucion");
-                // Actualizar la interfaz gráfica con el estado del proceso
-                actualizarInterfazGrafica(proceso);
-                // Iniciar el temporizador para la duración del proceso
-                Timer duracionTimer = new Timer(1000, new java.awt.event.ActionListener() {
-                    int duracionActual = 0;
-
-                    @Override
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        // Actualizar la duración del proceso en la interfaz gráfica
-                        duracionActual++;
-                        proceso.setDuracionProceso(duracionActual);
-                        actualizarInterfazGrafica(proceso);
-                        // Verificar si el proceso ha terminado
-                        if (duracionActual >= proceso.getDuracionProceso()) {
-                            // Detener el temporizador
-                            ((Timer) evt.getSource()).stop();
-                            // Cambiar el estado del proceso a "Terminado"
-                            proceso.setEstado("Terminado");
-                            // Actualizar la interfaz gráfica con el estado del proceso
-                            actualizarInterfazGrafica(proceso);
-                        }
-                    }
-                });
-                duracionTimer.start();
-            }
-        });
-        simulacionThread.start();
+        LinkedList<claseProcesos> procesosRegistrados = pantallaProcesosInstancia.getProcesosRegistrados();
+        // Iterar sobre los procesos registrados e imprimir sus nombres y memoria requerida
+        for (claseProcesos proceso : procesosRegistrados) {
+            System.out.println("Nombre del Proceso: " + proceso.getNombreProceso());
+            System.out.println("Memoria Requerida: " + proceso.getMemoriaRequerida());
+        }
     }//GEN-LAST:event_btnSimularActionPerformed
-private void actualizarInterfazGrafica(Procesos proceso) {
-  DefaultTableModel model = (DefaultTableModel) tablaProcesos.getModel();
-  for (int i = 0; i < model.getRowCount(); i++) {
-    if ((int) model.getValueAt(i, 0) == proceso.getIdProceso()) {
-      model.setValueAt("En memoria", i, 3); // Actualizar estado
-      proceso.setDuracionProceso(duracionActual); // Actualizar duración
-      model.setValueAt(proceso.getDuracionProceso(), i, 5); // Actualizar "Duración"
-      break;
-    }
-  }
-}
+
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // Cálculo de dimensiones
         //JPanel1 es el JPanel que está sobre el JFrame
@@ -200,7 +161,7 @@ private void actualizarInterfazGrafica(Procesos proceso) {
                     JPanel panelParticion = new JPanel();
                     panelParticion.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     panelParticion.setPreferredSize(new Dimension(anchoPanelHijo, altoPanelHijo));
-                    panelParticion.setBackground(color1);
+                    panelParticion.setBackground(colorLibre);
                     panelParticion.add(nombreProceso);
                     panelParticion.add(porcentaje);
                     // Agregar el panel a jPanel1 y establecer su ubicación
@@ -212,7 +173,7 @@ private void actualizarInterfazGrafica(Procesos proceso) {
     jPanel1.revalidate(); //Revalidar los datos
     jPanel1.repaint();//Re dibujamos en el instante para que aparezcan los nuevos paneles
     }//GEN-LAST:event_formWindowOpened
-  
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -12,12 +12,14 @@ import java.util.TimerTask;
 
 public class pantallaProcesos extends javax.swing.JFrame {
   DefaultTableModel modelo;
-  public LinkedList<Procesos> procesos;
-  public ArrayList<Particion> particiones = Particion.obtenerParticiones();
+  public LinkedList<claseProcesos> procesos;
+  public ArrayList<claseParticion> particiones = claseParticion.obtenerParticiones();
   private Timer timer;//Timer para columna de duracion de un proceso
+  private LinkedList<claseProcesos> listaProcesos = new LinkedList<>();
   
     public pantallaProcesos() {
         initComponents();
+        listaProcesos = new LinkedList<>();
     } 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -180,7 +182,7 @@ public class pantallaProcesos extends javax.swing.JFrame {
         String nombreProceso = txtFprocesoNuevo.getText();
         int memoriaRequerida = Integer.parseInt(txtFmemoriaRequerida.getText());
         //Encontramos cual partición tiene mayor memoria recorriendo el arreglo de particiones hecha en JFrame TablaPartición
-        Particion mayorParticion = Particion.encontrarMayor(particiones);
+        claseParticion mayorParticion = claseParticion.encontrarMayor(particiones);
         //Validar que el proceso que se obtiene no sea mayor que el tamaño de partición más grande
         if (memoriaRequerida <= mayorParticion.getTamanio()) {
             //Estblece tiempo random requerido para que una aplicación este en memoria
@@ -190,22 +192,21 @@ public class pantallaProcesos extends javax.swing.JFrame {
             //Establecemos el estado
             String estado = (memoriaRequerida > mayorParticion.getTamanio()) ? "En espera" : "En ejecución";
             //Creamos un objeto para cada proceso
-            Procesos proceso = new Procesos(nombreProceso, idProceso, estado, memoriaRequerida, tiempoRequerido, 0);
-            procesos.add(proceso);
+            claseProcesos procesoPantallaProcesos = new claseProcesos(nombreProceso, idProceso, estado, memoriaRequerida, tiempoRequerido, 0);
+            procesos.add(procesoPantallaProcesos);
+            listaProcesos.add(procesoPantallaProcesos); 
 
-            Object[] fila = {proceso.getIdProceso(), proceso.getNombreProceso(), proceso.getMemoriaRequerida(), proceso.getEstado(), proceso.getTiempoRequerido(), proceso.getDuracionProceso()};
-            modelo.addRow(fila);
-            
+            Object[] fila = {procesoPantallaProcesos.getIdProceso(), procesoPantallaProcesos.getNombreProceso(), procesoPantallaProcesos.getMemoriaRequerida(), procesoPantallaProcesos.getEstado(), procesoPantallaProcesos.getTiempoRequerido(), 
+                procesoPantallaProcesos.getDuracionProceso()};
+            modelo.addRow(fila);       
             //Empieza el timer
-            empezarTimer(proceso);
-
+            empezarTimer(procesoPantallaProcesos);
         } else {
             JOptionPane.showMessageDialog(this, "La memoria requerida es mayor que la partición más grande.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        System.out.println("Mayor tamano particion segun jframe pantallaprocesos: "+mayorParticion.getTamanio());
+        }        
     }//GEN-LAST:event_btnRegistrarActionPerformed
     //Otras funciones
-     private void empezarTimer(Procesos proceso) {
+     private void empezarTimer(claseProcesos proceso) {
         //Crear un nuevo timer por proceso
         timer = new Timer();
         TimerTask task = new TimerTask() {
@@ -220,15 +221,22 @@ public class pantallaProcesos extends javax.swing.JFrame {
                 modelo.setValueAt(duracionActual, RowProceso, 5);
 
                 //Parar el timer cuando llega a tiempo requerido
-                if (duracionActual == proceso.getTiempoRequerido()) {
-                    timer.cancel();
-                }
+                //if (duracionActual == proceso.getTiempoRequerido()) {
+                  //  timer.cancel();
+                //}
             }
         };
         //Timer en segundos
         timer.schedule(task, 0, 1000);
      }
-    
+    public double getPorcentajeMemoriaOcupada(int memoriaRequerida) {
+      int totalMemoria = DatosGlobales.obtenerInstancia().getCantidadTotalMemoria();
+      return ((double)memoriaRequerida / totalMemoria) * 100;
+    }
+    // Método para obtener la lista de procesos registrados
+    public LinkedList<claseProcesos> getProcesosRegistrados() {
+        return procesos;
+    }
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

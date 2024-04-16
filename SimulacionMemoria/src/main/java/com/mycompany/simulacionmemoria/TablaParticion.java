@@ -15,7 +15,7 @@ public class TablaParticion extends javax.swing.JFrame {
    private int numeroParticiones;
    private String politicaUbicacion;
    private int contadorParticiones = 0;
-   private ArrayList<Particion> particiones = new ArrayList<>();
+   private ArrayList<claseParticion> particiones = new ArrayList<>();
    private int mayorTamanioParticion = 0;
       
     public TablaParticion(){
@@ -39,8 +39,8 @@ public class TablaParticion extends javax.swing.JFrame {
          model.setRowCount(0);
 
           // Add data from particiones list
-        for (Particion p : particiones) {
-          model.addRow(new Object[]{p.getNombre(), p.getTamanio()});
+        for (claseParticion p : particiones) {
+          model.addRow(new Object[]{p.getNumeroParticion(), p.getTamanio()});
         }
     }
 
@@ -347,9 +347,9 @@ public class TablaParticion extends javax.swing.JFrame {
             contadorParticiones++;//contador de particiones
             
             // Encontrar el tamaño de la partición más grande
-            for (Particion particion : particiones) {
-            if (particion.getTamanio() > mayorTamanioParticion) {
-            mayorTamanioParticion = particion.getTamanio();
+            for (claseParticion particionTp : particiones) {
+            if (particionTp.getTamanio() > mayorTamanioParticion) {
+            mayorTamanioParticion = particionTp.getTamanio();
                 }
             }
             System.out.println("Tamaño de la partición más grande: " + mayorTamanioParticion);
@@ -361,16 +361,16 @@ public class TablaParticion extends javax.swing.JFrame {
             modelo1.addRow(v);
 
             // Crear la nueva partición y agregarla a la lista de particiones
-            Particion nuevaParticion = new Particion(contadorParticiones + "", memoriaAsignada);
+            claseParticion nuevaParticion = new claseParticion(contadorParticiones + "", memoriaAsignada);
             particiones.add(nuevaParticion);
-            Particion.agregarParticion(nuevaParticion);
+            claseParticion.agregarParticion(nuevaParticion);
 
             // Actualizar el modelo de la tabla
             updateTableModel();
 
             //Variable para TextField Memoria que va sobrando
             int memoriaRestante = cantidadTotalMemoria;
-            for (Particion particion : particiones) {
+            for (claseParticion particion : particiones) {
                 memoriaRestante -= particion.getTamanio();
             }
             memRestante.setText(String.valueOf(memoriaRestante));
@@ -405,7 +405,7 @@ public class TablaParticion extends javax.swing.JFrame {
     }
     
     // Obtener la partición seleccionada
-    Particion particionSeleccionada = particiones.get(filaSeleccionada);
+    claseParticion particionSeleccionada = particiones.get(filaSeleccionada);
     
     // Crear un diálogo para editar la cantidad de memoria asignada
     String nuevaMemoriaString = JOptionPane.showInputDialog(this, "Ingrese la nueva cantidad de memoria asignada:");
@@ -432,7 +432,7 @@ public class TablaParticion extends javax.swing.JFrame {
     
     // Calcular la memoria total asignada actualmente
     int memoriaTotalAsignada = 0;
-    for (Particion particion : particiones) {
+    for (claseParticion particion : particiones) {
         memoriaTotalAsignada += particion.getTamanio();
     }
     

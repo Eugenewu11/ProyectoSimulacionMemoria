@@ -3,19 +3,21 @@ package com.mycompany.simulacionmemoria;
 //Clase para manejar datos que vendrán de pantallaProceso
 
 //Imports
+import java.util.LinkedList;
 import javax.swing.Timer;
-public class Procesos {
+public class claseProcesos {
     //Varibales
     private String nombreProceso;
+    private String numeroParticion;
     private int idProceso;
     private String estadoProceso;
     private int memoriaRequerida;
     private int tiempoRequerido;
-    private int actTiempo;//ActualizarTiempo
     private int duracionProceso;
+    private LinkedList<claseProcesos> listaProcesos = new LinkedList<>();
     private Timer timer;
     // Constructor
-    public Procesos(String nombreProceso, int idProceso,String estadoProceso, int memoriaRequerida, 
+    public claseProcesos(String nombreProceso, int idProceso,String estadoProceso, int memoriaRequerida, 
                     int tiempoRequerido, int duracionProceso){
         //atributos
         this.nombreProceso = nombreProceso;
@@ -24,10 +26,6 @@ public class Procesos {
         this.memoriaRequerida = memoriaRequerida;
         this.tiempoRequerido = tiempoRequerido;
         this.duracionProceso = duracionProceso;
-        timer = new Timer(1000, (e) -> {
-            actTiempo++;
-        });
-        timer.start();
     }
     // Getters y setters
     public String getNombreProceso() {
@@ -69,10 +67,6 @@ public class Procesos {
     public void setDuracionProceso(int duracionProceso) {
         this.duracionProceso = duracionProceso;
     }
-    public void ActTiempo(){
-        //actualizador de tiempo para columna "Duración"
-        this.actTiempo++;
-    }
     public String getEstado(){
         return estadoProceso;
     }
@@ -82,4 +76,14 @@ public class Procesos {
     public Timer getTimer() {
         return timer;
     }
+    public String getNumeroParticion() {
+    // Devolver el número de partición asignada a este proceso
+    return this.numeroParticion;
+    }
+    public LinkedList<claseProcesos> getListaProcesos() {
+    return listaProcesos;
+  }
+  public void setListaProcesos(LinkedList<claseProcesos> listaProcesos) {
+    this.listaProcesos = listaProcesos;
+  }
 }
