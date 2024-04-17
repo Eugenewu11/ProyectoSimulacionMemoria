@@ -86,4 +86,9 @@ public class claseProcesos {
   public void setListaProcesos(LinkedList<claseProcesos> listaProcesos) {
     this.listaProcesos = listaProcesos;
   }
+  public double calcularPorcentajeMemoriaOcupada(int tamanioParticion) {
+        // Calcular el porcentaje de memoria ocupada por este proceso en relación con el tamaño de la partición
+        double porcentaje = ((double) this.memoriaRequerida / tamanioParticion) * 100;
+        return porcentaje;
+    }
 }

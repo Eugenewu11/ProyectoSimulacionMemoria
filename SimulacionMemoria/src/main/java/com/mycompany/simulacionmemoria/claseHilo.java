@@ -20,8 +20,13 @@ public class claseHilo extends Thread {
     public void run() {
     if (politicaUbicacion.equals("Primer Ajuste")) {
         // Crear una instancia de primerAjuste
-        primerAjuste miPrimerAjuste = new primerAjuste();        
-        miPrimerAjuste.asignarProceso(listaProcesos, listaParticiones);
-       }
+        politicasAjuste PrimerAjuste = new politicasAjuste();        
+        PrimerAjuste.primerAjuste(listaProcesos, listaParticiones);
+       }else{
+            if(politicaUbicacion.equals("Primer Ajuste")){
+               politicasAjuste MejorAjuste = new politicasAjuste(); 
+               MejorAjuste.mejorAjuste(listaProcesos, listaParticiones);
+            }
+        }
     }
 }

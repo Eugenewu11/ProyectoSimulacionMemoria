@@ -206,32 +206,10 @@ public class pantallaProcesos extends javax.swing.JFrame {
         }        
     }//GEN-LAST:event_btnRegistrarActionPerformed
     //Otras funciones
-     private void empezarTimer(claseProcesos proceso) {
-        //Crear un nuevo timer por proceso
-        timer = new Timer();
-        TimerTask task = new TimerTask() {
-            int duracionActual = 0; 
-
-            @Override
-            public void run() {
-                // Update duration in the table model
-                duracionActual++;
-                proceso.setDuracionProceso(duracionActual);
-                int RowProceso = modelo.getRowCount() - 1; //Asumiendo que el nuevo proceso es agregado al final
-                modelo.setValueAt(duracionActual, RowProceso, 5);
-
-                //Parar el timer cuando llega a tiempo requerido
-                //if (duracionActual == proceso.getTiempoRequerido()) {
-                  //  timer.cancel();
-                //}
-            }
-        };
-        //Timer en segundos
-        timer.schedule(task, 0, 1000);
-     }
-    public double getPorcentajeMemoriaOcupada(int memoriaRequerida) {
-      int totalMemoria = DatosGlobales.obtenerInstancia().getCantidadTotalMemoria();
-      return ((double)memoriaRequerida / totalMemoria) * 100;
+    private void empezarTimer(claseProcesos proceso) {
+        // Crear un nuevo timer para el proceso y ejecutar el ProcesoTimer
+        Timer timer = new Timer();
+        timer.schedule(new claseTimer(proceso), 0, 1000); // El timer se ejecutará cada segundo
     }
     // Método para obtener la lista de procesos registrados
     public LinkedList<claseProcesos> getProcesosRegistrados() {

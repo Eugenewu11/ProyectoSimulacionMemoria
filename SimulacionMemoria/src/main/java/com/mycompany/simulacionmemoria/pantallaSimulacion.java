@@ -2,16 +2,16 @@
 package com.mycompany.simulacionmemoria;
 
 //Imports
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.table.DefaultTableModel;
 
 
 
@@ -24,8 +24,8 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     private LinkedList<claseProcesos> procesos;
     
     //Personalizacion de colores
-    Color colorLibre = new Color(0,153,0); //Verde
-    Color colorEnUso = new Color(255, 215, 0);//Amarillo
+    Color colorLibre = new Color(0,204,0); //Verde
+    Color colorEnUso = new Color(255, 204, 0);//Amarillo
     //Maximo de particiones es 20, se hará un vector 5x4
     int maxFilas = 5;
     int maxColumnas = 4;
@@ -132,12 +132,16 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
+        
+        pantallaProcesos pantallaProcesosInstancia = new pantallaProcesos();
         LinkedList<claseProcesos> procesosRegistrados = pantallaProcesosInstancia.getProcesosRegistrados();
         // Iterar sobre los procesos registrados e imprimir sus nombres y memoria requerida
         for (claseProcesos proceso : procesosRegistrados) {
             System.out.println("Nombre del Proceso: " + proceso.getNombreProceso());
             System.out.println("Memoria Requerida: " + proceso.getMemoriaRequerida());
         }
+        claseHilo hilo = new claseHilo(procesosRegistrados, particiones);
+        hilo.start();
     }//GEN-LAST:event_btnSimularActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -149,29 +153,34 @@ public class pantallaSimulacion extends javax.swing.JFrame {
         int numeroParticiones = datosPsim.getNumeroParticiones(); // Obtener número de particiones del objeto DatosGlobales
         int totalParticionesAMostrar = Math.min(numeroParticiones, maxColumnas * maxFilas);
         // Bucle for anidado para crear la matriz de paneles
-        for (int i = 0; i < maxFilas; i++) {
-            for (int j = 0; j < maxColumnas; j++) {
-                // Calcular el índice del panel actual
-                int indicePanel = i * maxColumnas + j;
-                JLabel nombreProceso = new JLabel("Nombre proceso " + (indicePanel + 1));
-                JLabel porcentaje = new JLabel("Porcentaje: " + (indicePanel * 10) + "%");
-
-                // Solo crear paneles si el índice es menor que el número de particiones
-                if (indicePanel < totalParticionesAMostrar) {
-                    JPanel panelParticion = new JPanel();
-                    panelParticion.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                    panelParticion.setPreferredSize(new Dimension(anchoPanelHijo, altoPanelHijo));
-                    panelParticion.setBackground(colorLibre);
-                    panelParticion.add(nombreProceso);
-                    panelParticion.add(porcentaje);
-                    // Agregar el panel a jPanel1 y establecer su ubicación
-                    jPanel1.add(panelParticion);
-                    panelParticion.setBounds(j * anchoPanelHijo, i * altoPanelHijo, anchoPanelHijo, altoPanelHijo);
-                }
+        // Bucle for anidado para crear la matriz de paneles
+    for (int i = 0; i < maxFilas; i++) {
+        for (int j = 0; j < maxColumnas; j++) {
+            // Calcular el índice del panel actual
+            int indicePanel = i * maxColumnas + j;
+            JLabel numParticion = new JLabel("Particion " + (indicePanel + 1));
+            
+            JLabel libre = new JLabel("Libre");
+            
+            JLabel porcentaje = new JLabel("Porcentaje: " + (indicePanel * 10) + "%");
+            // Solo crear paneles si el índice es menor que el número de particiones
+            if (indicePanel < totalParticionesAMostrar) {
+                JPanel panelParticion = new JPanel();
+                panelParticion.setLayout(new BoxLayout(panelParticion, BoxLayout.Y_AXIS)); // Establecer layout vertical
+                panelParticion.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                panelParticion.setPreferredSize(new Dimension(anchoPanelHijo, altoPanelHijo));
+                panelParticion.setBackground(colorLibre); 
+                panelParticion.add(numParticion);
+                panelParticion.add(libre);
+                panelParticion.add(porcentaje);
+                // Agregar el panel a jPanel1 y establecer su ubicación
+                jPanel1.add(panelParticion);
+                panelParticion.setBounds(j * anchoPanelHijo, i * altoPanelHijo, anchoPanelHijo, altoPanelHijo);
             }
-        }   
-    jPanel1.revalidate(); //Revalidar los datos
-    jPanel1.repaint();//Re dibujamos en el instante para que aparezcan los nuevos paneles
+        }
+    }    
+        jPanel1.revalidate(); //Revalidar los datos
+        jPanel1.repaint();//Re dibujamos en el instante para que aparezcan los nuevos paneles   
     }//GEN-LAST:event_formWindowOpened
 
     public static void main(String args[]) {
