@@ -4,18 +4,15 @@ package com.mycompany.simulacionmemoria;
 
 //Imports
 import java.util.LinkedList;
-import javax.swing.Timer;
 public class claseProcesos {
     //Varibales
     private String nombreProceso;
-    private String numeroParticion;
     private int idProceso;
     private String estadoProceso;
     private int memoriaRequerida;
     private int tiempoRequerido;
     private int duracionProceso;
     private LinkedList<claseProcesos> listaProcesos = new LinkedList<>();
-    private Timer timer;
     // Constructor
     public claseProcesos(String nombreProceso, int idProceso,String estadoProceso, int memoriaRequerida, 
                     int tiempoRequerido, int duracionProceso){
@@ -72,13 +69,6 @@ public class claseProcesos {
     }
     public void setEstado(String estadoProceso){
         this.estadoProceso = estadoProceso;
-    }
-    public Timer getTimer() {
-        return timer;
-    }
-    public String getNumeroParticion() {
-    // Devolver el número de partición asignada a este proceso
-    return this.numeroParticion;
     }
     public LinkedList<claseProcesos> getListaProcesos() {
     return listaProcesos;

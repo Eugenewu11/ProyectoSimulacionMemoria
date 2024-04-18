@@ -16,7 +16,7 @@ public class pantallaProcesos extends javax.swing.JFrame {
   public ArrayList<claseParticion> particiones = claseParticion.obtenerParticiones();
   private Timer timer;//Timer para columna de duracion de un proceso
   private LinkedList<claseProcesos> listaProcesos = new LinkedList<>();
-  
+ 
     public pantallaProcesos() {
         initComponents();
         listaProcesos = new LinkedList<>();
@@ -134,6 +134,7 @@ public class pantallaProcesos extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -201,6 +202,10 @@ public class pantallaProcesos extends javax.swing.JFrame {
             modelo.addRow(fila);       
             //Empieza el timer
             empezarTimer(procesoPantallaProcesos);
+            //Vaciar los textField despues de haberle dado click en el btn 
+            txtFprocesoNuevo.setText("");
+            txtFmemoriaRequerida.setText("");
+
         } else {
             JOptionPane.showMessageDialog(this, "La memoria requerida es mayor que la partición más grande.", "Error", JOptionPane.ERROR_MESSAGE);
         }        
@@ -209,11 +214,23 @@ public class pantallaProcesos extends javax.swing.JFrame {
     private void empezarTimer(claseProcesos proceso) {
         // Crear un nuevo timer para el proceso y ejecutar el ProcesoTimer
         Timer timer = new Timer();
-        timer.schedule(new claseTimer(proceso), 0, 1000); // El timer se ejecutará cada segundo
+        timer.schedule(new claseTimer(proceso, this), 0, 1000); // El timer se ejecutará cada segundo
+    }
+    public void actualizarDuracionEnTabla(claseProcesos proceso) {
+    //Actualiza el tiempo en la tabla    
+    // Buscar la fila correspondiente al proceso en la tabla
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            if (Integer.parseInt(modelo.getValueAt(i, 0).toString()) == proceso.getIdProceso()) {
+                // Actualizar el valor de la duración en la fila correspondiente
+                modelo.setValueAt(proceso.getDuracionProceso(), i, 5);
+                break;
+            }
+        }
     }
     // Método para obtener la lista de procesos registrados
     public LinkedList<claseProcesos> getProcesosRegistrados() {
         return procesos;
+        //Obtiene la lista de procesos registrados en la tabla 
     }
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

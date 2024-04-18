@@ -6,7 +6,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -31,12 +33,11 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     int maxColumnas = 4;
     //TablaProcesos
     private javax.swing.JTable tablaProcesos;
-    private int duracionActual;
-    
+
     private pantallaProcesos pantallaProcesosInstancia;
     public pantallaSimulacion() {
         initComponents();
-        //procesos = new LinkedList<>();//skdxbaxcajs
+        //procesos = new LinkedList<>();
         particiones = new ArrayList<>();
     }
 
@@ -122,6 +123,7 @@ public class pantallaSimulacion extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
@@ -132,16 +134,12 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
-        
-        pantallaProcesos pantallaProcesosInstancia = new pantallaProcesos();
-        LinkedList<claseProcesos> procesosRegistrados = pantallaProcesosInstancia.getProcesosRegistrados();
+    LinkedList<claseProcesos> procesosRegistrados = pantallaProcesosInstancia.getProcesosRegistrados();
         // Iterar sobre los procesos registrados e imprimir sus nombres y memoria requerida
         for (claseProcesos proceso : procesosRegistrados) {
             System.out.println("Nombre del Proceso: " + proceso.getNombreProceso());
             System.out.println("Memoria Requerida: " + proceso.getMemoriaRequerida());
         }
-        claseHilo hilo = new claseHilo(procesosRegistrados, particiones);
-        hilo.start();
     }//GEN-LAST:event_btnSimularActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

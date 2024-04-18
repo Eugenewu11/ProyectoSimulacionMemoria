@@ -264,6 +264,7 @@ public class TablaParticion extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void NumPartTPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumPartTPActionPerformed

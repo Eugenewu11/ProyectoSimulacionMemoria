@@ -23,7 +23,7 @@ public class claseHilo extends Thread {
         politicasAjuste PrimerAjuste = new politicasAjuste();        
         PrimerAjuste.primerAjuste(listaProcesos, listaParticiones);
        }else{
-            if(politicaUbicacion.equals("Primer Ajuste")){
+            if(politicaUbicacion.equals("Mejor Ajuste")){
                politicasAjuste MejorAjuste = new politicasAjuste(); 
                MejorAjuste.mejorAjuste(listaProcesos, listaParticiones);
             }
