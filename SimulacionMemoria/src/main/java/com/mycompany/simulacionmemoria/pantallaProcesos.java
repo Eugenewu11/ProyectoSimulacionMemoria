@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import javax.swing.JOptionPane;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JTable;
 
 public class pantallaProcesos extends javax.swing.JFrame {
   DefaultTableModel modelo;
@@ -194,8 +195,8 @@ public class pantallaProcesos extends javax.swing.JFrame {
             String estado = (memoriaRequerida > mayorParticion.getTamanio()) ? "En espera" : "En ejecución";
             //Creamos un objeto para cada proceso
             claseProcesos procesoPantallaProcesos = new claseProcesos(nombreProceso, idProceso, estado, memoriaRequerida, tiempoRequerido, 0);
-            procesos.add(procesoPantallaProcesos);
-            listaProcesos.add(procesoPantallaProcesos); 
+            procesos.add(procesoPantallaProcesos);//Esta info va para claseProceso
+            listaProcesos.add(procesoPantallaProcesos); //Este va para pantallaSimulacion
 
             Object[] fila = {procesoPantallaProcesos.getIdProceso(), procesoPantallaProcesos.getNombreProceso(), procesoPantallaProcesos.getMemoriaRequerida(), procesoPantallaProcesos.getEstado(), procesoPantallaProcesos.getTiempoRequerido(), 
                 procesoPantallaProcesos.getDuracionProceso()};
@@ -232,10 +233,26 @@ public class pantallaProcesos extends javax.swing.JFrame {
         return procesos;
         //Obtiene la lista de procesos registrados en la tabla 
     }
+    public DefaultTableModel getModelo() {
+    return modelo;
+    }
+    
+    public void setModelo(DefaultTableModel modelo) {
+    this.modelo = modelo;
+    }
+   
+    public JTable getTablaProcesos() {
+        return tablaProcesos;
+    }
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new pantallaProcesos().setVisible(true);
+                pantallaSimulacion simulacion = new pantallaSimulacion();
+                pantallaProcesos proceso = new pantallaProcesos();
+
+                // Establecer la instancia de pantallaProcesos en pantallaSimulacion
+                simulacion.setPantallaProcesosInstancia(proceso);
             }
         });
     }

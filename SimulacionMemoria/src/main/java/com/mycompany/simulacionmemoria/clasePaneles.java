@@ -81,16 +81,11 @@ public class clasePaneles extends JPanel{
         revalidate(); // Revalidar el contenedor
         repaint();    // Repintar el contenedor
     }
-    private void actualizarPanel(JPanel panel, claseParticion particion) {
+    public void actualizarPanel(JPanel panel, claseParticion particion) {
         //Ver si el proceso se asigno a particion
         claseProcesos procesoAsignado = particion.getProcesoAsignado();
+        panel.setBackground(enUso);
 
-        //Cambiar color de panel
-        if (procesoAsignado != null) {
-            panel.setBackground(enUso);
-        } else {
-            panel.setBackground(Libre);
-        }
 
         //Crear y agregar los JLabel 
         JLabel numeroParticionLabel = new JLabel("Particion: " + particion.getNumeroParticion());
@@ -107,5 +102,25 @@ public class clasePaneles extends JPanel{
 
         // Arreglar los labels verticalmente
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    }
+    public void actualizarPanelVacio(JPanel panel) {
+        // Limpiar el panel
+        panel.removeAll();
+        // Establecer el color del panel como libre
+        panel.setBackground(Libre);
+        // Agregar los labels "Sin proceso" y "0%" al panel
+        JLabel sinProcesoLabel = new JLabel("Sin proceso");
+        JLabel porcentajeUsoLabel = new JLabel("0%");
+        // Alinear los labels
+        sinProcesoLabel.setHorizontalAlignment(JLabel.CENTER);
+        porcentajeUsoLabel.setHorizontalAlignment(JLabel.CENTER);
+        // Agregar los labels al panel
+        panel.add(sinProcesoLabel);
+        panel.add(porcentajeUsoLabel);
+        // Arreglar los labels verticalmente
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        // Revalidar y repintar el panel
+        panel.revalidate();
+        panel.repaint();
     }
 }

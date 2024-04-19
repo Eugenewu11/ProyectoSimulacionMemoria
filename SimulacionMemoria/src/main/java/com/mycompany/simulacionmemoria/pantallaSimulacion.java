@@ -6,16 +6,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.Timer;
-
-
+import javax.swing.table.DefaultTableModel;
 
 public class pantallaSimulacion extends javax.swing.JFrame {
     //datos globales de JFrame pantallaSimulacion
@@ -24,23 +24,25 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     String politicaUbicacion = datosPsim.getPoliticaUbicacion();
     private ArrayList<claseParticion> particiones;
     private LinkedList<claseProcesos> procesos;
-    
     //Personalizacion de colores
     Color colorLibre = new Color(0,204,0); //Verde
     Color colorEnUso = new Color(255, 204, 0);//Amarillo
     //Maximo de particiones es 20, se hará un vector 5x4
     int maxFilas = 5;
     int maxColumnas = 4;
-    //TablaProcesos
-    private javax.swing.JTable tablaProcesos;
-
+    private ArrayList<JTextField> txtFieldParticiones;
+    private clasePaneles panelesParticiones;
     private pantallaProcesos pantallaProcesosInstancia;
+    
     public pantallaSimulacion() {
         initComponents();
         //procesos = new LinkedList<>();
         particiones = new ArrayList<>();
+        panelesParticiones = new clasePaneles(particiones, procesos);
+        txtFieldParticiones = new ArrayList<>();
     }
-
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -140,6 +142,13 @@ public class pantallaSimulacion extends javax.swing.JFrame {
             System.out.println("Nombre del Proceso: " + proceso.getNombreProceso());
             System.out.println("Memoria Requerida: " + proceso.getMemoriaRequerida());
         }
+        // Obtener el modelo de la tabla desde pantallaProcesos
+        DefaultTableModel modelo = pantallaProcesosInstancia.getModelo();
+
+        // Obtener la tabla de procesos desde pantallaProcesos
+        JTable tablaProcesos = pantallaProcesosInstancia.getTablaProcesos();
+        claseHilo hiloSimulacion = new claseHilo(procesosRegistrados, particiones, txtFieldParticiones.get(0),modelo,tablaProcesos);
+        hiloSimulacion.start();
     }//GEN-LAST:event_btnSimularActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -147,40 +156,70 @@ public class pantallaSimulacion extends javax.swing.JFrame {
         //JPanel1 es el JPanel que está sobre el JFrame
         int anchoPanelHijo = jPanel1.getWidth() / maxColumnas;
         int altoPanelHijo = jPanel1.getHeight() / maxFilas;
-        this.procesos = new LinkedList<>();
+        claseParticion[] particionesArray = claseParticion.crearParticiones(numeroParticiones, datosPsim.getCantidadTotalMemoria());
+        //Convertir la Lista a arrayList
+        particiones = new ArrayList<>(Arrays.asList(particionesArray));
+        procesos = new LinkedList<>();
         int numeroParticiones = datosPsim.getNumeroParticiones(); // Obtener número de particiones del objeto DatosGlobales
         int totalParticionesAMostrar = Math.min(numeroParticiones, maxColumnas * maxFilas);
+        double memoriaTotalRequerida = 0.0; // Inicializar la memoria total requerida por los procesos
+        // Calcular la memoria total requerida por proceso
+        for (claseProcesos proceso : procesos) {
+            memoriaTotalRequerida += proceso.getMemoriaRequerida();
+        }
         // Bucle for anidado para crear la matriz de paneles
         // Bucle for anidado para crear la matriz de paneles
     for (int i = 0; i < maxFilas; i++) {
         for (int j = 0; j < maxColumnas; j++) {
             // Calcular el índice del panel actual
             int indicePanel = i * maxColumnas + j;
-            JLabel numParticion = new JLabel("Particion " + (indicePanel + 1));
-            
-            JLabel libre = new JLabel("Libre");
-            
-            JLabel porcentaje = new JLabel("Porcentaje: " + (indicePanel * 10) + "%");
             // Solo crear paneles si el índice es menor que el número de particiones
             if (indicePanel < totalParticionesAMostrar) {
                 JPanel panelParticion = new JPanel();
                 panelParticion.setLayout(new BoxLayout(panelParticion, BoxLayout.Y_AXIS)); // Establecer layout vertical
                 panelParticion.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 panelParticion.setPreferredSize(new Dimension(anchoPanelHijo, altoPanelHijo));
-                panelParticion.setBackground(colorLibre); 
-                panelParticion.add(numParticion);
-                panelParticion.add(libre);
-                panelParticion.add(porcentaje);
-                // Agregar el panel a jPanel1 y establecer su ubicación
+                //panelParticion.setBackground(colorLibre); 
+                
+                // Crear y configurar los campos de texto
+                JTextField txtFieldParticion = new JTextField();
+                double porcentaje = 0.0; // Inicializar el porcentaje de uso de la partición
+                // Calcular el porcentaje de uso de la partición si hay memoria total requerida por los procesos
+                if (memoriaTotalRequerida > 0) {
+                    porcentaje = (particionesArray[indicePanel].getTamanio() / memoriaTotalRequerida) * 100;
+                }
+                txtFieldParticion.setText("Particion " + (indicePanel + 1) + "\nLibre \n" + String.format("%.2f", porcentaje) + "%");
+                txtFieldParticion.setEditable(false); // No editable
+                txtFieldParticion.setBackground(colorLibre);
+                txtFieldParticion.setHorizontalAlignment(JTextField.CENTER); // Alinear al centro
+                
+                // Agregar el campo de texto al arraylist
+                txtFieldParticiones.add(txtFieldParticion);
+                
+                // Añadir el campo de texto al panel
+                panelParticion.add(txtFieldParticion);
+                
+                // Añadir el panel a jPanel1 y establecer su ubicación
                 jPanel1.add(panelParticion);
                 panelParticion.setBounds(j * anchoPanelHijo, i * altoPanelHijo, anchoPanelHijo, altoPanelHijo);
             }
         }
     }    
-        jPanel1.revalidate(); //Revalidar los datos
-        jPanel1.repaint();//Re dibujamos en el instante para que aparezcan los nuevos paneles   
+    jPanel1.revalidate(); // Revalidar los datos
+    jPanel1.repaint();
     }//GEN-LAST:event_formWindowOpened
+   //Otros metodos o funciones
+    private void agregarTextFieldParticion(JTextField textField) {
+        txtFieldParticiones.add(textField);
+    }
 
+    private pantallaProcesos pProcesosInstancia;
+
+    // Método setter para establecer la instancia de pantallaProcesos
+    public void setPantallaProcesosInstancia(pantallaProcesos instancia) {
+        this.pantallaProcesosInstancia = instancia;
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -212,7 +251,7 @@ public class pantallaSimulacion extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnRegistro;
     public javax.swing.JButton btnSimular;
