@@ -19,7 +19,7 @@ public class claseHilo extends Thread {
     private JTable tablaProcesos;
     Color Libre = new Color(0,204,0); //Verde
     Color EnUso = new Color(255, 204, 0);//Amarillo
-    public claseHilo(LinkedList<claseProcesos> listaProcesos, ArrayList<claseParticion> listaParticiones,JTextField txtFieldParticio,DefaultTableModel modelo,JTable TablaProcesos) {
+    public claseHilo(LinkedList<claseProcesos> listaProcesos, ArrayList<claseParticion> listaParticiones,JTextField txtFieldParticion,DefaultTableModel modelo,JTable tablaProcesos) {
         this.listaProcesos = listaProcesos;
         this.listaParticiones = listaParticiones;
         this.politicaUbicacion = DatosGlobales.obtenerInstancia().getPoliticaUbicacion();
