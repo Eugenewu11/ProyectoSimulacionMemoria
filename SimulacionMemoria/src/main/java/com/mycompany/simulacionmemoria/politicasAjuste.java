@@ -32,7 +32,7 @@ public class politicasAjuste {
                     particion.setTamanio(memoriaRestante);
                 }
                 // Marcamos el proceso como asignado
-                proceso.setEstado("Asignado a partición " + particion.getNumeroParticion());
+                proceso.setEstado("Ejecutandose");
                 double porcentajeMemoria = (double) proceso.getMemoriaRequerida() / particion.getTamanio() * 100;
                 asignado = true; // Indicamos que al menos un proceso fue asignado correctamente
                 break; // Proceso asignado, salimos del bucle
@@ -66,7 +66,7 @@ public class politicasAjuste {
                 mejorParticion.setTamanio(memoriaRestante);
             }
             // Marcamos el proceso como asignado
-            proceso.setEstado("Asignado a partición " + mejorParticion.getNumeroParticion());
+            proceso.setEstado("Ejecutandose");
             double porcentajeMemoria = (double) proceso.getMemoriaRequerida() / mejorParticion.getTamanio() * 100;
             asignado = true; // Indicamos que al menos un proceso fue asignado correctamente
         }

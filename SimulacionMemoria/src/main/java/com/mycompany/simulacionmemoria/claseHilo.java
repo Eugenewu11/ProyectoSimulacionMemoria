@@ -4,6 +4,8 @@ package com.mycompany.simulacionmemoria;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -84,6 +86,7 @@ public class claseHilo extends Thread {
       }
      }
     }
+    //Otros metodos
     private int buscarProcesoEnTabla(int idProceso) {
     for (int i = 0; i < modelo.getRowCount(); i++) {
         int procesoId = (int) modelo.getValueAt(i, 0); // Obtiene el valor directamente sin castear a String

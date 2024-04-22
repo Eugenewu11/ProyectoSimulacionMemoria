@@ -2,7 +2,6 @@
 package com.mycompany.simulacionmemoria;
 
 //Imports
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -10,9 +9,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +22,7 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     String politicaUbicacion = datosPsim.getPoliticaUbicacion();
     private ArrayList<claseParticion> particiones;
     private LinkedList<claseProcesos> procesos;
+    DefaultTableModel modeloSim;
     //Personalizacion de colores
     Color colorLibre = new Color(0,204,0); //Verde
     Color colorEnUso = new Color(255, 204, 0);//Amarillo
@@ -32,7 +31,6 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     int maxColumnas = 4;
     private ArrayList<JTextField> txtFieldParticiones;
     private clasePaneles panelesParticiones;
-    private pantallaProcesos pantallaProcesosInstancia;
     
     public pantallaSimulacion() {
         initComponents();
@@ -51,6 +49,8 @@ public class pantallaSimulacion extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnRegistro = new javax.swing.JButton();
         btnSimular = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaProcesosSim = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -91,37 +91,55 @@ public class pantallaSimulacion extends javax.swing.JFrame {
             }
         });
 
+        tablaProcesosSim.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaProcesosSim);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(269, 269, 269)
+                .addComponent(btnSimular, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(319, 319, 319)
+                .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
-                    .addComponent(btnSimular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(430, 430, 430))
+                .addGap(538, 538, 538))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap(29, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSimular, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSimular, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -129,29 +147,67 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-        pantallaProcesosInstancia = new pantallaProcesos(); //Instanciar pantalla para registrar un proceso
-        this.setVisible(true);//Mantener visible esta pantalla
-        pantallaProcesosInstancia.setVisible(true);//Hacer visible el otro JFrame
-        
+        detalleProcesos y = new detalleProcesos(this,true);
+        y.setVisible(true);
+        if( y.getRootPane() != null ){
+            if(!y.nombreProceso.getText().isEmpty() && !y.memRequerida.getText().isEmpty())
+            {
+                String nombreProceso = y.nombreProceso.getText();
+                //Id que se vaya enumerando de 1 en 1
+                int id = modeloSim.getRowCount() + 1;
+                int memoriaRequerida = Integer.parseInt(y.memRequerida.getText());
+                int tiempoRequerido = (int) (Math.random() * (DatosGlobales.obtenerInstancia().getTiempoMaximo() - DatosGlobales.obtenerInstancia().getTiempoMinimo()) + DatosGlobales.obtenerInstancia().getTiempoMinimo());
+                //Instanciar clase
+                claseProcesos proceso = new claseProcesos(nombreProceso, modeloSim.getRowCount() + 1, "En espera", memoriaRequerida, tiempoRequerido, 0);
+                //Agregamos la info a la linkedList de procesos
+                procesos.add(proceso);
+                //Hacemos que se agregue la fila con la informacion
+                modeloSim.addRow(new Object[]{id, nombreProceso, memoriaRequerida, "En espera", tiempoRequerido, 0});
+            }else
+            {
+                JOptionPane.showMessageDialog(this, "Se requiere nombre de proceso y memoria requerida.");
+            }
+        }        
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
-    LinkedList<claseProcesos> procesosRegistrados = pantallaProcesosInstancia.getProcesosRegistrados();
-        // Iterar sobre los procesos registrados e imprimir sus nombres y memoria requerida
-        for (claseProcesos proceso : procesosRegistrados) {
-            System.out.println("Nombre del Proceso: " + proceso.getNombreProceso());
-            System.out.println("Memoria Requerida: " + proceso.getMemoriaRequerida());
-        }
-        // Obtener el modelo de la tabla desde pantallaProcesos
-        DefaultTableModel modelo = pantallaProcesosInstancia.getModelo();
 
-        // Obtener la tabla de procesos desde pantallaProcesos
-        JTable tablaProcesos = pantallaProcesosInstancia.getTablaProcesos();
-        claseHilo hiloSimulacion = new claseHilo(procesosRegistrados, particiones, txtFieldParticiones.get(0),modelo,tablaProcesos);
+        claseHilo hiloSimulacion = new claseHilo(procesos, particiones, txtFieldParticiones.get(0), modeloSim, tablaProcesosSim);
         hiloSimulacion.start();
     }//GEN-LAST:event_btnSimularActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+    //Tabla donde se registraran los procesos    
+    //inicializar modelo de datos
+    modeloSim = new DefaultTableModel()
+        {
+            //Evitar poder editar las celdas del JTable
+            public boolean isCellEditable(int rowIndex, int mColIndex){
+            return false;
+        }
+      };
+       modeloSim.addColumn("ID");//0
+       modeloSim.addColumn("Nombre Proceso");//1
+       modeloSim.addColumn("Memoria Requerida");//2
+       modeloSim.addColumn("Estado");//3
+       modeloSim.addColumn("Tiempo Req.");//4
+       modeloSim.addColumn("Duración");//5
+       //Estblacer el modelo
+       tablaProcesosSim.setModel(modeloSim);
+       //Personalización de anchos por columna
+       tablaProcesosSim.getColumnModel().getColumn(0).setMaxWidth(50);
+       tablaProcesosSim.getColumnModel().getColumn(0).setPreferredWidth(50);
+       tablaProcesosSim.getColumnModel().getColumn(1).setMaxWidth(150);
+       tablaProcesosSim.getColumnModel().getColumn(1).setPreferredWidth(150);  
+       tablaProcesosSim.getColumnModel().getColumn(2).setMaxWidth(150);
+       tablaProcesosSim.getColumnModel().getColumn(2).setPreferredWidth(150);  
+       tablaProcesosSim.getColumnModel().getColumn(3).setMaxWidth(120);
+       tablaProcesosSim.getColumnModel().getColumn(3).setPreferredWidth(120);  
+       tablaProcesosSim.getColumnModel().getColumn(4).setMaxWidth(105);
+       tablaProcesosSim.getColumnModel().getColumn(4).setPreferredWidth(105);  
+       tablaProcesosSim.getColumnModel().getColumn(5).setMaxWidth(100);
+       tablaProcesosSim.getColumnModel().getColumn(5).setPreferredWidth(100); 
+             
         // Cálculo de dimensiones
         //JPanel1 es el JPanel que está sobre el JFrame
         int anchoPanelHijo = jPanel1.getWidth() / maxColumnas;
@@ -188,7 +244,7 @@ public class pantallaSimulacion extends javax.swing.JFrame {
                 if (memoriaTotalRequerida > 0) {
                     porcentaje = (particionesArray[indicePanel].getTamanio() / memoriaTotalRequerida) * 100;
                 }
-                txtFieldParticion.setText("Particion " + (indicePanel + 1) + "\nLibre \n" + String.format("%.2f", porcentaje) + "%");
+                txtFieldParticion.setText("Libre \n" + String.format("%.2f", porcentaje) + "%");
                 txtFieldParticion.setEditable(false); // No editable
                 txtFieldParticion.setBackground(colorLibre);
                 txtFieldParticion.setHorizontalAlignment(JTextField.CENTER); // Alinear al centro
@@ -212,14 +268,16 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     private void agregarTextFieldParticion(JTextField textField) {
         txtFieldParticiones.add(textField);
     }
-
-    private pantallaProcesos pProcesosInstancia;
-
-    // Método setter para establecer la instancia de pantallaProcesos
-    public void setPantallaProcesosInstancia(pantallaProcesos instancia) {
-        this.pantallaProcesosInstancia = instancia;
+  
+    private int buscarProcesoEnTabla(int idProceso) {
+    for (int i = 0; i < modeloSim.getRowCount(); i++) {
+        int id = (int) modeloSim.getValueAt(i, 0); // Obtener el ID del proceso en la fila i
+        if (id == idProceso) {
+            return i; // Devolver el índice si se encuentra el proceso en la tabla
+        }
     }
-    
+    return -1; // Devolver -1 si el proceso no se encuentra en la tabla
+}
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -257,5 +315,7 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     public javax.swing.JButton btnSimular;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaProcesosSim;
     // End of variables declaration//GEN-END:variables
 }

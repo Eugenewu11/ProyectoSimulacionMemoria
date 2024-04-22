@@ -12,6 +12,7 @@ public class claseProcesos {
     private int memoriaRequerida;
     private int tiempoRequerido;
     private int duracionProceso;
+    private int duracion;
     private LinkedList<claseProcesos> listaProcesos = new LinkedList<>();
     // Constructor
     public claseProcesos(String nombreProceso, int idProceso,String estadoProceso, int memoriaRequerida, 
@@ -64,19 +65,27 @@ public class claseProcesos {
     public void setDuracionProceso(int duracionProceso) {
         this.duracionProceso = duracionProceso;
     }
+    
     public String getEstado(){
         return estadoProceso;
     }
+    
     public void setEstado(String estadoProceso){
         this.estadoProceso = estadoProceso;
     }
     public LinkedList<claseProcesos> getListaProcesos() {
-    return listaProcesos;
-  }
-  public void setListaProcesos(LinkedList<claseProcesos> listaProcesos) {
-    this.listaProcesos = listaProcesos;
-  }
-  public double calcularPorcentajeMemoriaOcupada(int tamanioParticion) {
+        return listaProcesos;
+    }
+    
+    public void setListaProcesos(LinkedList<claseProcesos> listaProcesos) {
+        this.listaProcesos = listaProcesos;
+    }
+    
+    public void actualizarDuracion() {
+        duracion++;
+    }
+    
+     public double calcularPorcentajeMemoriaOcupada(int tamanioParticion) {
         // Calcular el porcentaje de memoria ocupada por este proceso en relación con el tamaño de la partición
         double porcentaje = ((double) this.memoriaRequerida / tamanioParticion) * 100;
         return porcentaje;
