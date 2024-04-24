@@ -14,16 +14,16 @@ public class politicasAjuste {
     //Procesos registrados en pantallaProcesos
     
     //Particiones (tamaño de cada particion)
-  // Constructor
+    // Constructor
     public boolean primerAjuste(LinkedList<claseProcesos> procesos, ArrayList<claseParticion> particiones) {
     boolean asignado = false; // Variable para indicar si al menos un proceso fue asignado correctamente
 
     for (claseProcesos proceso : procesos) {
         int memoriaRequerida = proceso.getMemoriaRequerida();
-        // Recorremos las particiones para encontrar la primera adecuada para el proceso actual
+        // Recorre las particiones para encontrar la primera adecuada para el proceso actual
         for (claseParticion particion : particiones) {
             if (!particion.esAsignada() && particion.getTamanio() >= memoriaRequerida) {
-                // Si encontramos una partición adecuada, asignamos el proceso a esa partición
+                // Si encuentra una partición adecuada, se asigna el proceso a esa partición
                 particion.setProcesoAsignado(proceso);
                 particion.setAsignada(true);
                 // Actualizamos la memoria restante de la partición si es necesario

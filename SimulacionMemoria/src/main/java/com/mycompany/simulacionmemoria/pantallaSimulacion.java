@@ -20,6 +20,7 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     DatosGlobales datosPsim = DatosGlobales.obtenerInstancia();
     int numeroParticiones = datosPsim.getNumeroParticiones();
     String politicaUbicacion = datosPsim.getPoliticaUbicacion();
+    //Variables para asignar procesos o mostrar particiones
     private ArrayList<claseParticion> particiones;
     private LinkedList<claseProcesos> procesos;
     DefaultTableModel modeloSim;
@@ -29,17 +30,22 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     //Maximo de particiones es 20, se hará un vector 5x4
     int maxFilas = 5;
     int maxColumnas = 4;
+    //Variable para guardar la informacion de los txtfield de las particiones
     private ArrayList<JTextField> txtFieldParticiones;
-    private clasePaneles panelesParticiones;
-    
+    //timer para controlar la duracion de los procesos
+    private Timer timer;
+    //contador para duracion
+    private int segundosTranscurridos = 0;
     public pantallaSimulacion() {
         initComponents();
-        //procesos = new LinkedList<>();
         particiones = new ArrayList<>();
-        panelesParticiones = new clasePaneles(particiones, procesos);
         txtFieldParticiones = new ArrayList<>();
+        timer = new Timer(1000, (e) -> {
+            // Actualizar la duración de los procesos en la tabla
+            actualizarDuracionProcesos();
+            segundosTranscurridos++;
+        });
     }
-    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -147,6 +153,7 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
+        //Instanciar el jdialog
         detalleProcesos y = new detalleProcesos(this,true);
         y.setVisible(true);
         if( y.getRootPane() != null ){
@@ -171,8 +178,18 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
+        timer.start();
+        segundosTranscurridos = 0; 
 
-        claseHilo hiloSimulacion = new claseHilo(procesos, particiones, txtFieldParticiones.get(0), modeloSim, tablaProcesosSim);
+        claseHilo hiloSimulacion;
+        if (politicaUbicacion.equals("Primer Ajuste")) {
+          hiloSimulacion = new claseHilo(procesos, particiones, txtFieldParticiones.get(0), modeloSim,timer);
+        } else if (politicaUbicacion.equals("Mejor Ajuste")) {
+          hiloSimulacion = new claseHilo(procesos, particiones, txtFieldParticiones.get(0), modeloSim,timer);
+        } else {
+          // Handle other allocation policies here
+          throw new IllegalArgumentException("No existe tal politica de ubicacion");
+        }
         hiloSimulacion.start();
     }//GEN-LAST:event_btnSimularActionPerformed
 
@@ -265,19 +282,54 @@ public class pantallaSimulacion extends javax.swing.JFrame {
     jPanel1.repaint();
     }//GEN-LAST:event_formWindowOpened
    //Otros metodos o funciones
-    private void agregarTextFieldParticion(JTextField textField) {
-        txtFieldParticiones.add(textField);
+    public int getSegundosTranscurridos() {
+        return segundosTranscurridos;
     }
-  
-    private int buscarProcesoEnTabla(int idProceso) {
+    private void actualizarDuracionProcesos() {
+    // Recorrer la tabla y actualizar la duración de los procesos
     for (int i = 0; i < modeloSim.getRowCount(); i++) {
-        int id = (int) modeloSim.getValueAt(i, 0); // Obtener el ID del proceso en la fila i
-        if (id == idProceso) {
-            return i; // Devolver el índice si se encuentra el proceso en la tabla
+        int idProceso = (int) modeloSim.getValueAt(i, 0); // Obtener ID del proceso
+        int duracionActual = (int) modeloSim.getValueAt(i, 5); // Duración actual del proceso
+        int tiempoRequerido = (int) modeloSim.getValueAt(i, 4); // Tiempo requerido del proceso
+
+        // Verificar si la duración actual ha alcanzado el tiempo requerido
+        if (duracionActual == tiempoRequerido) {
+            // El proceso ha terminado, marcar como "Finalizado"
+            modeloSim.setValueAt("Finalizado", i, 3);
+
+            // Buscar y liberar la partición asignada
+            liberarParticionPorProceso(idProceso);
+
+            // Detener el timer si es el último proceso en ejecución
+            if (esUltimoProcesoEnEjecucion()) {
+                timer.stop();
+            }
+            // No incrementar la duración, ya que el proceso ha terminado
+            continue;
+        }
+            // Incrementar la duración en 1 segundo
+            modeloSim.setValueAt(duracionActual + 1, i, 5);
+        }
+        segundosTranscurridos++; // Incrementar los segundos transcurridos
+    }
+    private void liberarParticionPorProceso(int idProceso) {
+        for (claseParticion particion : particiones) {
+            if (particion.getProcesoAsignado() != null && particion.getProcesoAsignado().getIdProceso() == idProceso) {
+                particion.setProcesoAsignado(null);
+                particion.setAsignada(false); // Marcar la partición como no asignada
+                break;
+            }
         }
     }
-    return -1; // Devolver -1 si el proceso no se encuentra en la tabla
-}
+    private boolean esUltimoProcesoEnEjecucion() {
+        for (claseProcesos proceso : procesos) {
+            if (proceso.getEstado().equals("En ejecución")) {
+                return false; // Hay al menos un proceso en ejecución
+            }
+        }
+
+        return true; // No hay procesos en ejecución
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

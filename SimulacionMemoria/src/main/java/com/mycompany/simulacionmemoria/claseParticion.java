@@ -64,10 +64,8 @@ public class claseParticion {
     for (int i = 0; i < numeroParticiones - 1; i++) {
         particiones[i] = new claseParticion("Partición " + (i + 1), tamanoParticion);
     }
-
     // Asignar el resto de la memoria a la última partición
     particiones[numeroParticiones - 1] = new claseParticion("Partición " + numeroParticiones, tamanoParticion + resto);
-
     return particiones;
 }
     //Encontrar cual n partición es la que tiene mayor memoria

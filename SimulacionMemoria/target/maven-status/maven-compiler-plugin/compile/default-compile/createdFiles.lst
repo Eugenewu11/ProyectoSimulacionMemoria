@@ -1,5 +1,4 @@
 com\mycompany\simulacionmemoria\detalleTp$3.class
-com\mycompany\simulacionmemoria\claseHilo$1.class
 com\mycompany\simulacionmemoria\pantallaSimulacion$5.class
 com\mycompany\simulacionmemoria\pantallaSimulacion.class
 com\mycompany\simulacionmemoria\TablaParticion$3.class
@@ -14,6 +13,7 @@ com\mycompany\simulacionmemoria\claseProcesos.class
 com\mycompany\simulacionmemoria\TablaParticion$1.class
 com\mycompany\simulacionmemoria\TablaParticion.class
 com\mycompany\simulacionmemoria\pantallaSimulacion$3.class
+com\mycompany\simulacionmemoria\claseTxtFieldParticiones.class
 com\mycompany\simulacionmemoria\claseHilo.class
 com\mycompany\simulacionmemoria\detalleTp$2.class
 com\mycompany\simulacionmemoria\claseTimer.class
@@ -22,7 +22,6 @@ com\mycompany\simulacionmemoria\detalleTp$5$1.class
 com\mycompany\simulacionmemoria\pantallaSimulacion$1.class
 com\mycompany\simulacionmemoria\detalleTp$4.class
 com\mycompany\simulacionmemoria\TablaParticion$4.class
-com\mycompany\simulacionmemoria\clasePaneles.class
 com\mycompany\simulacionmemoria\Menu$1.class
 com\mycompany\simulacionmemoria\politicasAjuste.class
 com\mycompany\simulacionmemoria\SimulacionMemoria.class

@@ -73,21 +73,17 @@ public class claseProcesos {
     public void setEstado(String estadoProceso){
         this.estadoProceso = estadoProceso;
     }
+    //Lista de procesos que proviene de la tabla en pantallaSimulacion
     public LinkedList<claseProcesos> getListaProcesos() {
         return listaProcesos;
     }
     
     public void setListaProcesos(LinkedList<claseProcesos> listaProcesos) {
         this.listaProcesos = listaProcesos;
-    }
-    
-    public void actualizarDuracion() {
-        duracion++;
-    }
-    
-     public double calcularPorcentajeMemoriaOcupada(int tamanioParticion) {
+    }   
+    public double calcularPorcentajeMemoriaOcupada(int tamanioParticion) {
         // Calcular el porcentaje de memoria ocupada por este proceso en relación con el tamaño de la partición
         double porcentaje = ((double) this.memoriaRequerida / tamanioParticion) * 100;
         return porcentaje;
-    }
+    }    
 }
